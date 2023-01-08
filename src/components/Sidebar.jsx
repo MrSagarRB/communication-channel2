@@ -7,7 +7,7 @@ import { ContextProvider } from "../Context";
 import Loader from "./Loader";
 
 const Sidebar = () => {
-  const { isLoading, error, data } = useQuery("repoData", () =>
+  const { isLoading, error, data } = useQuery("allChats", () =>
     fetch(`${api_baseUrl}/getAllChats`).then((res) => res.json())
   );
   const { user, activeChat, setActiveChat } = useContext(ContextProvider);

@@ -18,7 +18,7 @@ const Home = () => {
           <Header />
         </div>
 
-        <div className="   px-[20px] py-[20px] h-[82%] overflow-y-scroll bg-[#FAFAFA]   ">
+        <div className="px-[20px] py-[20px] h-[82%] overflow-y-scroll bg-[#FAFAFA]   ">
           <ChatContainer />
         </div>
 
