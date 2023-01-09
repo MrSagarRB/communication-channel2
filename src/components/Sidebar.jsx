@@ -1,8 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import UserContainer from "./UserContainer";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
-import { api_baseUrl } from "../utils";
+import { api_baseUrl, userId } from "../utils";
 import { ContextProvider } from "../Context";
 import Loader from "./Loader";
 
@@ -10,9 +10,8 @@ const Sidebar = () => {
   const { isLoading, error, data } = useQuery("allChats", () =>
     fetch(`${api_baseUrl}/getAllChats`).then((res) => res.json())
   );
-  const { user, activeChat, setActiveChat } = useContext(ContextProvider);
 
-  // console.log(isLoading);
+  const { user, activeChat, setActiveChat } = useContext(ContextProvider);
 
   return (
     <div className="h-full w-full border-r border-[#EEEEEE] shadow-sm">
@@ -32,7 +31,14 @@ const Sidebar = () => {
       </div>
 
       <div className=" h-[600px] w-[337px] flex flex-col duration-1000">
-        {isLoading ? (
+        {data?.map((item, ind) => {
+          return item?.users?.filter((user) => user === userId)?.length ? (
+            <div key={ind} onClick={() => setActiveChat(item._id)}>
+              <UserContainer props={item} />
+            </div>
+          ) : null;
+        })}
+        {/* {isLoading ? (
           <div className="h-full w-full flex  justify-center  ">
             <div className="h-[200px] w-[200px]  overflow-hidden">
               <img src="https://flevix.com/wp-content/uploads/2020/01/Preloader.gif" />
@@ -46,7 +52,7 @@ const Sidebar = () => {
               </div>
             );
           })
-        )}
+        )} */}
       </div>
     </div>
   );

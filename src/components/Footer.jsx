@@ -1,15 +1,23 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { ImAttachment } from "react-icons/im";
 import { CiPaperplane } from "react-icons/ci";
 import { api_baseUrl } from "../utils";
 import axios from "axios";
+import { ContextProvider } from "../Context";
+import { userId } from "../utils";
 
 const Footer = () => {
   let [newMessage, setNewMessage] = useState();
-  console.log(newMessage);
+  let { activeChat, setActiveChat } = useContext(ContextProvider);
 
   let handelSendMessage = () => {
-    axios.post(`${api_baseUrl}/sendMessage`, { message: newMessage });
+    axios
+      .post(`${api_baseUrl}/sendMessage`, {
+        id: activeChat,
+        message: newMessage,
+        senderID: userId,
+      })
+      .then(() => alert("Message has been Sent"));
   };
 
   return (
@@ -34,6 +42,7 @@ const Footer = () => {
       </div>
 
       <button
+        disabled={!activeChat}
         onClick={() => handelSendMessage()}
         className="hover:bg-[#FAFAFA] duration-300 cursor-pointer rounded-full p-2"
       >

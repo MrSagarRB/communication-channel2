@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { HiOutlineVideoCamera } from "react-icons/hi";
 import { AiOutlineInfoCircle } from "react-icons/ai";
+import { ContextProvider } from "../Context";
 const Header = () => {
+  let { activeChat, setActiveChat } = useContext(ContextProvider);
   return (
     <div className="h-full w-full border-b border-[#EEEEEE] px-[10px] flex  items-center justify-between shadow-sm">
       <div className="flex items-center space-x-4">
@@ -13,7 +15,9 @@ const Header = () => {
           alt=""
         />
         <div className="font-medium ">
-          <p className="">Jese Leos</p>
+          <p className="">
+            {activeChat === undefined ? "Sagar Borude" : activeChat}
+          </p>
           <div className="text-sm  text-[#27AE60] ">Online</div>
         </div>
       </div>

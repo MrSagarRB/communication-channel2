@@ -1,9 +1,12 @@
 import React, { useContext, useState } from "react";
 import { RiCheckDoubleLine } from "react-icons/ri";
 import { ContextProvider } from "../Context";
+import { userId } from "../utils";
 
 const UserContainer = ({ props }) => {
   let { activeChat, setActiveChat } = useContext(ContextProvider);
+
+  console.log(activeChat);
 
   return (
     <div
