@@ -1,12 +1,11 @@
 import React, { useContext, useEffect } from "react";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { ContextProvider } from "../Context";
 import { api_baseUrl } from "../utils";
 import { userId } from "../utils";
 
 const ChatContainer = () => {
-  let { activeChat, setActiveChat } = useContext(ContextProvider);
-
+  let { activeChat, setActiveChat, allUser } = useContext(ContextProvider);
   const { isLoading, error, data } = useQuery("allChats");
 
   let messages = data?.filter((item) => {
@@ -14,7 +13,7 @@ const ChatContainer = () => {
   });
 
   return (
-    <div className=" flex flex-col gap-[15px]  h-full">
+    <div className=" flex flex-col  gap-[15px]   ">
       {activeChat === undefined ? (
         <div className=" h-full w-full flex items-center justify-center">
           <div className="h-[400px] w-[400px] overflow-hidden ">
@@ -25,7 +24,9 @@ const ChatContainer = () => {
         messages[0].messages?.map((item) => {
           return (
             <div
-              className={`${item.senderId === userId ? "" : "flex gap-[10px]"}`}
+              className={`${
+                item.senderId === userId ? "" : "flex gap-[10px] "
+              }`}
             >
               <div
                 className={`${
@@ -40,8 +41,10 @@ const ChatContainer = () => {
               </div>
 
               <div
-                className={`bg-[#F4F4F7] py-[10px] px-[20px] rounded-b-[16px] rounded-tr-[16px] sm:max-w-[70%]   ${
-                  item.senderId === userId ? "float-right" : "float-left"
+                className={`bg-[#F4F4F7] py-[10px] px-[20px]  sm:max-w-[70%]   ${
+                  item.senderId === userId
+                    ? "float-right rounded-b-[16px] rounded-tl-[16px]"
+                    : "float-left rounded-b-[16px] rounded-tr-[16px]"
                 }`}
               >
                 <p>{item.text}</p>

@@ -30,7 +30,7 @@ const Sidebar = () => {
         </p>
       </div>
 
-      <div className=" h-[600px] w-[337px] flex flex-col duration-1000">
+      <div className=" h-[600px] w-[337px] flex flex-col duration-1000 overflow-y-scroll">
         {data?.map((item, ind) => {
           return item?.users?.filter((user) => user === userId)?.length ? (
             <div key={ind} onClick={() => setActiveChat(item._id)}>
@@ -38,21 +38,6 @@ const Sidebar = () => {
             </div>
           ) : null;
         })}
-        {/* {isLoading ? (
-          <div className="h-full w-full flex  justify-center  ">
-            <div className="h-[200px] w-[200px]  overflow-hidden">
-              <img src="https://flevix.com/wp-content/uploads/2020/01/Preloader.gif" />
-            </div>
-          </div>
-        ) : (
-          data?.map((item, ind) => {
-            return (
-              <div key={ind} onClick={() => setActiveChat(item._id)}>
-                <UserContainer props={item} />
-              </div>
-            );
-          })
-        )} */}
       </div>
     </div>
   );

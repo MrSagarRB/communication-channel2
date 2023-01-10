@@ -2,10 +2,25 @@ import React, { useContext } from "react";
 import { HiOutlineVideoCamera } from "react-icons/hi";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { ContextProvider } from "../Context";
+import { useQuery } from "react-query";
+import { userId } from "../utils";
 const Header = () => {
-  let { activeChat, setActiveChat } = useContext(ContextProvider);
+  let { activeChat, setActiveChat, allUser } = useContext(ContextProvider);
+  const { isLoading, error, data } = useQuery("allChats");
+
+  let getChatName = () => {
+    if (activeChat) {
+      let currntChat = data.filter((item) => item._id == activeChat);
+      let reciverId = currntChat[0].users.filter((item) => item !== userId);
+      let chatName = allUser.filter((item) => item._id == reciverId[0]);
+      return chatName[0].userName;
+    }
+  };
+
   return (
-    <div className="h-full w-full border-b border-[#EEEEEE] px-[10px] flex  items-center justify-between shadow-sm">
+    <div
+      className={` h-full w-full border-b border-[#EEEEEE] px-[10px] flex  items-center justify-between shadow-sm`}
+    >
       <div className="flex items-center space-x-4">
         <img
           width="100"
@@ -16,7 +31,8 @@ const Header = () => {
         />
         <div className="font-medium ">
           <p className="">
-            {activeChat === undefined ? "Sagar Borude" : activeChat}
+            {/* {activeChat === undefined ? "Sagar Borude" : activeChat} */}
+            {getChatName()}
           </p>
           <div className="text-sm  text-[#27AE60] ">Online</div>
         </div>

@@ -6,6 +6,7 @@ import axios from "axios";
 import { ContextProvider } from "../Context";
 import { userId } from "../utils";
 
+
 const Footer = () => {
   let [newMessage, setNewMessage] = useState();
   let { activeChat, setActiveChat } = useContext(ContextProvider);

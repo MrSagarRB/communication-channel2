@@ -1,21 +1,12 @@
-import React, { useContext, useState } from "react";
+import React from "react";
 import { RiCheckDoubleLine } from "react-icons/ri";
-import { ContextProvider } from "../Context";
-import { userId } from "../utils";
 
-const UserContainer = ({ props }) => {
-  let { activeChat, setActiveChat, allUser } = useContext(ContextProvider);
-
-  let getChatName = () => {
-    let senderUserId = props.users.filter((item) => item !== userId);
-    let ChatName = allUser?.filter((item) => item._id == senderUserId);
-    return ChatName && ChatName[0]?.userName;
-  };
-
+const ContactCard = ({ props }) => {
+  console.log(props);
   return (
     <div
-      className={`px-[20px]  ${activeChat === props._id ? "bg-[#EEEEEE]" : ""} 
-      } flex items-center justify-between text-[14px] py-[10px] cursor-pointer duration-300  `}
+      className={`px-[20px]  
+    } flex items-center justify-between text-[14px] py-[10px] cursor-pointer duration-300 hover:bg-[#fff]  `}
     >
       <div className="flex gap-[10px] items-center">
         <div className="relative  h-10 w-10">
@@ -29,18 +20,19 @@ const UserContainer = ({ props }) => {
           <span className="bottom-0 left-7 absolute  w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
         </div>
         <div>
-          <p>{getChatName()}</p>
+          <p>{props?.userName}</p>
+          {/* <p>{getChatName()}</p> */}
           <p className="overflow-hidden w-[170px] text-[#9c9a9a] truncate ...">
-            <p>Helo world</p>
+            <p>ONLINE</p>
           </p>
         </div>
       </div>
       <div className="flex flex-col  items-end">
-        <p className="">16:12</p>
-        <RiCheckDoubleLine className=" " />
+        {/* <p className="">16:12</p>
+        <RiCheckDoubleLine className=" " /> */}
       </div>
     </div>
   );
 };
 
-export default UserContainer;
+export default ContactCard;

@@ -4,6 +4,7 @@ import Context, { ContextProvider } from "./Context";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import CreateUser from "./pages/CreateUser";
 
 const queryClient = new QueryClient();
 
@@ -16,6 +17,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Login />} />
               <Route path="/home" element={<Home />} />
+              <Route path="/create-account" element={<CreateUser />} />
             </Routes>
           </Router>
         </QueryClientProvider>
