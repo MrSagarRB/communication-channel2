@@ -4,22 +4,21 @@ import { BiSearch } from "react-icons/bi";
 import { ContextProvider } from "../Context";
 import { api_baseUrl } from "../utils";
 import ContactCard from "./ContactCard";
-import { userId } from "../utils";
+// import { userId } from "../utils";
 
-const ContactContainer = () => {
-  let { allUser } = useContext(ContextProvider);
-  console.log(allUser);
+const ContactContainer = ({ constctsContainer, setConstctsContainer }) => {
+  let { allUser, loggedUser } = useContext(ContextProvider);
 
   let handelCreateChat = async (item) => {
     await axios
       .post(`${api_baseUrl}/createNewChat`, {
-        users: [item._id, userId],
+        users: [item._id, loggedUser._id],
       })
       .then(() => alert("Chat Created"));
-    console.log(item._id);
+    setConstctsContainer(false);
   };
 
-  let filterUser = allUser?.filter((item) => item._id !== userId);
+  let filterUser = allUser?.filter((item) => item._id !== loggedUser._id);
 
   return (
     <div className="h-full w-full border-r border-[#EEEEEE] shadow-sm bg-[#EEEEEE] ">

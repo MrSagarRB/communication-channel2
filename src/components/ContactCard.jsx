@@ -2,7 +2,6 @@ import React from "react";
 import { RiCheckDoubleLine } from "react-icons/ri";
 
 const ContactCard = ({ props }) => {
-  console.log(props);
   return (
     <div
       className={`px-[20px]  

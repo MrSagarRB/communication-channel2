@@ -4,21 +4,29 @@ import { CiPaperplane } from "react-icons/ci";
 import { api_baseUrl } from "../utils";
 import axios from "axios";
 import { ContextProvider } from "../Context";
-import { userId } from "../utils";
-
+// import { userId } from "../utils";
 
 const Footer = () => {
   let [newMessage, setNewMessage] = useState();
   let { activeChat, setActiveChat } = useContext(ContextProvider);
+  let { loggedUser } = useContext(ContextProvider);
 
   let handelSendMessage = () => {
     axios
       .post(`${api_baseUrl}/sendMessage`, {
         id: activeChat,
         message: newMessage,
-        senderID: userId,
+        senderID: loggedUser._id,
       })
-      .then(() => alert("Message has been Sent"));
+      .then(() => {
+        document.getElementById("msg").value = "";
+        alert("Sent");
+      });
+
+    console.log(activeChat);
+
+    console.log(newMessage);
+    console.log(loggedUser._id);
   };
 
   return (
@@ -34,6 +42,7 @@ const Footer = () => {
       <div className="bg-[#FAFAFA] w-[90%]  h-full">
         <input
           type="text"
+          id="msg"
           placeholder="Type your message here.."
           className="h-full w-full outline-none px-[10px] bg-transparent rounded-[12px]"
           onChange={(e) => {

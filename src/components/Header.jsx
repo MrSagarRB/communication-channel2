@@ -3,15 +3,18 @@ import { HiOutlineVideoCamera } from "react-icons/hi";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { ContextProvider } from "../Context";
 import { useQuery } from "react-query";
-import { userId } from "../utils";
+// import { userId } from "../utils";
 const Header = () => {
-  let { activeChat, setActiveChat, allUser } = useContext(ContextProvider);
+  let { activeChat, setActiveChat, allUser, loggedUser } =
+    useContext(ContextProvider);
   const { isLoading, error, data } = useQuery("allChats");
 
   let getChatName = () => {
     if (activeChat) {
       let currntChat = data.filter((item) => item._id == activeChat);
-      let reciverId = currntChat[0].users.filter((item) => item !== userId);
+      let reciverId = currntChat[0].users.filter(
+        (item) => item !== loggedUser._id
+      );
       let chatName = allUser.filter((item) => item._id == reciverId[0]);
       return chatName[0].userName;
     }

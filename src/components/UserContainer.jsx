@@ -1,13 +1,14 @@
 import React, { useContext, useState } from "react";
 import { RiCheckDoubleLine } from "react-icons/ri";
 import { ContextProvider } from "../Context";
-import { userId } from "../utils";
+// import { userId } from "../utils";
 
 const UserContainer = ({ props }) => {
-  let { activeChat, setActiveChat, allUser } = useContext(ContextProvider);
+  let { activeChat, setActiveChat, allUser, loggedUser } =
+    useContext(ContextProvider);
 
   let getChatName = () => {
-    let senderUserId = props.users.filter((item) => item !== userId);
+    let senderUserId = props.users.filter((item) => item !== loggedUser._id);
     let ChatName = allUser?.filter((item) => item._id == senderUserId);
     return ChatName && ChatName[0]?.userName;
   };

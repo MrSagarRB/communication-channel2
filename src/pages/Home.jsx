@@ -20,7 +20,10 @@ const Home = () => {
             !constctsContainer ? " w-0" : "w-full"
           } h-full  absolute z-20 `}
         >
-          <ContactContainer />
+          <ContactContainer
+            constctsContainer={constctsContainer}
+            setConstctsContainer={setConstctsContainer}
+          />
         </div>
 
         <div

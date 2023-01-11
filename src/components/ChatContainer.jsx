@@ -2,10 +2,11 @@ import React, { useContext, useEffect } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { ContextProvider } from "../Context";
 import { api_baseUrl } from "../utils";
-import { userId } from "../utils";
+// import { userId } from "../utils";
 
 const ChatContainer = () => {
-  let { activeChat, setActiveChat, allUser } = useContext(ContextProvider);
+  let { activeChat, setActiveChat, allUser, loggedUser } =
+    useContext(ContextProvider);
   const { isLoading, error, data } = useQuery("allChats");
 
   let messages = data?.filter((item) => {
@@ -16,7 +17,7 @@ const ChatContainer = () => {
     <div className=" flex flex-col  gap-[15px]   ">
       {activeChat === undefined ? (
         <div className=" h-full w-full flex items-center justify-center">
-          <div className="h-[400px] w-[400px] overflow-hidden ">
+          <div className="h-[400px] w-[400px] overflow-hidden  mt-[150px]">
             <img src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/49bcfd78364175.5ca3009cb692f.gif" />{" "}
           </div>
         </div>
@@ -25,12 +26,12 @@ const ChatContainer = () => {
           return (
             <div
               className={`${
-                item.senderId === userId ? "" : "flex gap-[10px] "
+                item.senderId === loggedUser._id ? "" : "flex gap-[10px] "
               }`}
             >
               <div
                 className={`${
-                  item.senderId === userId ? "hidden" : ""
+                  item.senderId === loggedUser._id ? "hidden" : ""
                 } h-[50px] w-[50px`}
               >
                 <img
@@ -42,7 +43,7 @@ const ChatContainer = () => {
 
               <div
                 className={`bg-[#F4F4F7] py-[10px] px-[20px]  sm:max-w-[70%]   ${
-                  item.senderId === userId
+                  item.senderId === loggedUser._id
                     ? "float-right rounded-b-[16px] rounded-tl-[16px]"
                     : "float-left rounded-b-[16px] rounded-tr-[16px]"
                 }`}

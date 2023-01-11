@@ -1,27 +1,49 @@
-import React, { useContext, useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Context, { ContextProvider } from "./Context";
+import React, { useContext } from "react";
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+} from "react-router-dom";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import CreateUser from "./pages/CreateUser";
+import { ContextProvider } from "./Context";
 
 const queryClient = new QueryClient();
-
 const App = () => {
+  let { loggedUser } = useContext(ContextProvider);
+
   return (
     <div>
-      <Context>
-        <QueryClientProvider client={queryClient}>
-          <Router>
-            <Routes>
-              <Route path="/" element={<Login />} />
-              <Route path="/home" element={<Home />} />
-              <Route path="/create-account" element={<CreateUser />} />
-            </Routes>
-          </Router>
-        </QueryClientProvider>
-      </Context>
+      <QueryClientProvider client={queryClient}>
+        <Router>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                loggedUser === undefined ? (
+                  <Login />
+                ) : (
+                  <Navigate replace to="/home" />
+                )
+              }
+            />
+            <Route
+              path="/home"
+              element={
+                loggedUser === undefined ? (
+                  <Navigate replace to="/" />
+                ) : (
+                  <Home />
+                )
+              }
+            />
+            <Route path="/create-account" element={<CreateUser />} />
+          </Routes>
+        </Router>
+      </QueryClientProvider>
     </div>
   );
 };

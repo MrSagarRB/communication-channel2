@@ -8,6 +8,7 @@ const Context = ({ children }) => {
   let [user, setUser] = useState("");
   let [activeChat, setActiveChat] = useState();
   let [allUser, setAllUsers] = useState();
+  let [loggedUser, setLoggedUser] = useState();
 
   let getAllUser = async () => {
     await axios
@@ -15,21 +16,20 @@ const Context = ({ children }) => {
       .then((result) => setAllUsers(result.data));
   };
 
-  // const { isLoading, error, data } = useQuery("allUser", () =>
-  //   fetch(`${api_baseUrl}/getAllUser`).then((res) => res.json())
-  // );
-
-  // let messages = data?.filter((item) => {
-  //   return item._id === activeChat;
-  // });
-
   useEffect(() => {
     getAllUser();
   }, []);
 
   return (
     <ContextProvider.Provider
-      value={{ user, activeChat, setActiveChat, allUser }}
+      value={{
+        user,
+        activeChat,
+        setActiveChat,
+        allUser,
+        setLoggedUser,
+        loggedUser,
+      }}
     >
       {children}
     </ContextProvider.Provider>
