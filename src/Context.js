@@ -16,6 +16,14 @@ const Context = ({ children }) => {
       .then((result) => setAllUsers(result.data));
   };
 
+  // Modal
+  const [visible, setVisible] = React.useState(false);
+  const handler = () => setVisible(true);
+  const closeHandler = () => {
+    setVisible(false);
+    console.log("closed");
+  };
+
   useEffect(() => {
     getAllUser();
   }, []);
@@ -29,6 +37,9 @@ const Context = ({ children }) => {
         allUser,
         setLoggedUser,
         loggedUser,
+        handler,
+        visible,
+        closeHandler,
       }}
     >
       {children}
