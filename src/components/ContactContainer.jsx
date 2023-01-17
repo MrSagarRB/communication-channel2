@@ -10,7 +10,8 @@ const ContactContainer = ({ constctsContainer, setConstctsContainer }) => {
   let { allUser, loggedUser, setActiveChat, visible, closeHandler, handler } =
     useContext(ContextProvider);
 
-  let [inputCheck, setInputCheck] = useState([]);
+  let [inputCheck, setInputCheck] = useState([loggedUser._id]);
+  let [inputGroupName, setInputGroupName] = useState();
 
   let handelCreateChat = async (item) => {
     axios
@@ -23,31 +24,49 @@ const ContactContainer = ({ constctsContainer, setConstctsContainer }) => {
             .post(`${api_baseUrl}/createNewChat`, {
               users: [item._id, loggedUser._id],
               members: [item.userName, loggedUser.userName],
-              admin: loggedUser._id,
+              groupChat: false,
             })
-            .then(() => alert("Chat Created"));
-          setConstctsContainer(false);
+            .then(() => {
+              alert("Chat Created");
+              setConstctsContainer(false);
+            });
         } else {
           setConstctsContainer(false);
         }
       });
   };
 
+  let handelCreateGroupChat = async () => {
+    axios
+      .post(`${api_baseUrl}/createNewChat`, {
+        groupChat: true,
+        users: inputCheck,
+        admin: loggedUser._id,
+        groupName: inputGroupName,
+      })
+      .then(() => {
+        alert("Group Created");
+        setConstctsContainer(false);
+        closeHandler();
+      });
+  };
+
   let filterUser = allUser?.filter((item) => item._id !== loggedUser._id);
-  console.log(inputCheck);
+  console.log(inputGroupName);
   return (
     <div className="h-full w-full border-r border-[#EEEEEE] shadow-sm bg-[#EEEEEE] ">
       <Modal noPadding open={visible} onClose={closeHandler}>
         <div className="h-[500px] p-[20px] flex flex-col">
           <div class="mb-6">
-            <label for="email" class="block mb-2  font-medium text-xl  ">
+            <label for="email" class="block mb-2  font-medium text-xl">
               Create Group
             </label>
             <input
-              type="email"
-              id="email"
+              onChange={(e) => setInputGroupName(e.target.value)}
+              type="text"
+              id="groupName"
               class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="name@flowbite.com"
+              placeholder="Group name"
             />
           </div>
           <div className=" h-[300px] flex flex-col px-[20px] overflow-y-scroll">
@@ -75,10 +94,12 @@ const ContactContainer = ({ constctsContainer, setConstctsContainer }) => {
           </div>
 
           <button
+            disabled={!inputGroupName}
+            onClick={() => handelCreateGroupChat()}
             type="submit"
             class="text-white mt-[20px] w-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm  sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-            Submit
+            Create Group
           </button>
         </div>
       </Modal>

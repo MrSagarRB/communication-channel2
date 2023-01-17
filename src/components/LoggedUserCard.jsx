@@ -12,7 +12,7 @@ const LoggedUserCard = () => {
           width="100"
           height="100"
           className="w-10 h-10 rounded-full object-cover"
-          src="https://images.unsplash.com/photo-1654345503171-211d64f7749b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
+          src={loggedUser.pic}
           alt=""
         />
         <div className="font-medium ">

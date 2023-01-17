@@ -2,13 +2,21 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { api_baseUrl } from "../utils";
+import profilePic from "../json/profilePic.json";
 
 const CreateUser = () => {
   let [newUser, setNewUser] = useState();
   const navigate = useNavigate();
+  let getProfilePic = () => {
+    return Math.floor(Math.random() * 10);
+  };
 
   let handelInputChange = (e) => {
-    setNewUser({ ...newUser, [e.target.name]: e.target.value });
+    setNewUser({
+      ...newUser,
+      [e.target.name]: e.target.value,
+      pic: profilePic[getProfilePic()],
+    });
   };
 
   let createUser = async (e) => {
@@ -19,6 +27,8 @@ const CreateUser = () => {
       navigate("/");
     });
   };
+
+  console.log(profilePic[getProfilePic()]);
   return (
     <div className="flex items-center justify-center  h-screen w-full ">
       <div className=" w-[80%] sm:w-[400px] text-black">

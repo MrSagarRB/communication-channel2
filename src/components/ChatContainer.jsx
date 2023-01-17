@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { ContextProvider } from "../Context";
 import { api_baseUrl } from "../utils";
-// import { userId } from "../utils";
 
 const ChatContainer = () => {
   let { activeChat, setActiveChat, allUser, loggedUser } =
@@ -36,7 +35,7 @@ const ChatContainer = () => {
               >
                 <img
                   className="h-[50px] w-[50px] rounded-full object-cover"
-                  src="https://images.unsplash.com/photo-1654345503171-211d64f7749b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
+                  src="https://i.pravatar.cc/300"
                   alt=""
                 />
               </div>

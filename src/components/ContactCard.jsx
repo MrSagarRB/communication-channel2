@@ -13,7 +13,7 @@ const ContactCard = ({ props }) => {
             width="100"
             height="100"
             className="w-10 h-10 rounded-full object-cover"
-            src="https://images.unsplash.com/photo-1652018145149-b61a9566b245?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1674&q=80"
+            src={props.pic}
             alt=""
           />
           <span className="bottom-0 left-7 absolute  w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>

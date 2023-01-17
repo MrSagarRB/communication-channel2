@@ -12,11 +12,17 @@ const Header = () => {
   let getChatName = () => {
     if (activeChat) {
       let currntChat = data.filter((item) => item._id == activeChat);
-      let reciverId = currntChat[0].users.filter(
-        (item) => item !== loggedUser._id
-      );
-      let chatName = allUser.filter((item) => item._id == reciverId[0]);
-      return chatName[0].userName;
+
+      if (currntChat[0].groupChat) {
+        return currntChat[0]?.groupName;
+      } else {
+        let reciverId = currntChat[0].users.filter(
+          (item) => item !== loggedUser._id
+        );
+
+        let chatName = allUser.filter((item) => item._id == reciverId[0]);
+        return chatName[0].userName;
+      }
     }
   };
 
@@ -29,7 +35,7 @@ const Header = () => {
           width="100"
           height="100"
           className="w-10 h-10 rounded-full object-cover"
-          src="https://images.unsplash.com/photo-1654345503171-211d64f7749b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
+          src="https://i.pravatar.cc/300"
           alt=""
         />
         <div className="font-medium ">
