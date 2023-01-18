@@ -3,7 +3,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { ContextProvider } from "../Context";
 
 const LoggedUserCard = () => {
-  let { loggedUser } = useContext(ContextProvider);
+  let { loggedUser, logOut } = useContext(ContextProvider);
 
   return (
     <div className="flex items-center  justify-between ">
@@ -20,7 +20,7 @@ const LoggedUserCard = () => {
           <div className="text-sm  text-[#27AE60] ">Online</div>
         </div>
       </div>
-      <div>
+      <div onClick={() => logOut()} className="test">
         <BsThreeDotsVertical className="text-xl" />
       </div>
     </div>

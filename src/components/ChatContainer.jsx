@@ -12,6 +12,7 @@ const ChatContainer = () => {
     return item._id === activeChat;
   });
 
+  // console.log(messages[0]);
   return (
     <div className=" flex flex-col  gap-[15px]   ">
       {activeChat === undefined ? (

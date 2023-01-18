@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import CreateUser from "./pages/CreateUser";
 import { ContextProvider } from "./Context";
+import { Cookies } from "react-cookie";
 
 const queryClient = new QueryClient();
 const App = () => {

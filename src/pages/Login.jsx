@@ -1,14 +1,29 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { api_baseUrl } from "../utils";
 import { ContextProvider } from "../Context";
-import { useCookies } from "react-cookie";
+import { Cookies } from "react-cookie";
 
 const Login = () => {
   let [userDetails, setUserDetails] = useState();
   let { setLoggedUser } = useContext(ContextProvider);
-  const [cookies, setCookie] = useCookies(["access_token", "refresh_token"]);
+  const cookies = new Cookies();
+
+  let checkToken = () => {
+    let stroredToken = cookies.get("token");
+
+    if (stroredToken) {
+      axios
+        .post(`${api_baseUrl}/getUserByID`, { token: stroredToken })
+        .then((result) => {
+          setLoggedUser(result.data[0]);
+        });
+    } else {
+      console.log("no");
+    }
+  };
+
   const navigate = useNavigate();
 
   let handelInputChange = (e) => {
@@ -17,18 +32,21 @@ const Login = () => {
 
   let handelLogin = (e) => {
     e.preventDefault();
-
     axios.post(`${api_baseUrl}/login`, userDetails).then((result) => {
+      console.log(result.data);
       if (result.data[0] === undefined) {
         alert("Wrong Email");
       } else {
-        // console.log(result.data[0]);
         setLoggedUser(result.data[0]);
+        cookies.set("token", result.data[0]._id);
         alert("Logged in ");
         navigate("/home");
       }
     });
   };
+  useEffect(() => {
+    checkToken();
+  }, []);
 
   return (
     <div className="flex items-center justify-center  h-screen w-full ">

@@ -2,6 +2,8 @@ import React, { createContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { api_baseUrl } from "./utils";
 import axios from "axios";
+import { Cookies } from "react-cookie";
+
 export const ContextProvider = createContext();
 
 const Context = ({ children }) => {
@@ -24,6 +26,12 @@ const Context = ({ children }) => {
     console.log("closed");
   };
 
+  let logOut = () => {
+    console.log("logout");
+    Cookies.remove("token");
+  };
+
+  console.log(loggedUser);
   useEffect(() => {
     getAllUser();
   }, []);
@@ -40,6 +48,7 @@ const Context = ({ children }) => {
         handler,
         visible,
         closeHandler,
+        logOut,
       }}
     >
       {children}
