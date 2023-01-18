@@ -3,10 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { api_baseUrl } from "../utils";
 import { ContextProvider } from "../Context";
+import { useCookies } from "react-cookie";
 
 const Login = () => {
   let [userDetails, setUserDetails] = useState();
   let { setLoggedUser } = useContext(ContextProvider);
+  const [cookies, setCookie] = useCookies(["access_token", "refresh_token"]);
   const navigate = useNavigate();
 
   let handelInputChange = (e) => {
