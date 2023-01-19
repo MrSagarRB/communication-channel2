@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { ContextProvider } from "../Context";
 import { api_baseUrl } from "../utils";
@@ -7,6 +7,11 @@ const ChatContainer = () => {
   let { activeChat, setActiveChat, allUser, loggedUser } =
     useContext(ContextProvider);
   const { isLoading, error, data } = useQuery("allChats");
+
+  const messagesEndRef = useRef(null);
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   let messages = data?.filter((item) => {
     return item._id === activeChat;
@@ -28,6 +33,9 @@ const ChatContainer = () => {
     return sender[0].userName;
   };
 
+  useEffect(() => {
+    scrollToBottom();
+  }, [data]);
   return (
     <div className=" flex flex-col  gap-[15px]   ">
       {activeChat === undefined ? (
@@ -75,6 +83,7 @@ const ChatContainer = () => {
                 <p>{item.text}</p>
 
                 {/* <p className="text-[#868383]">15:42</p> */}
+                <div ref={messagesEndRef} />
               </div>
             </div>
           );

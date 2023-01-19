@@ -39,7 +39,7 @@ const Home = () => {
         </div>
         <Sidebar />
       </div>
-      <div className=" w-full relative">
+      <div className=" w-full relative h-screen ">
         <div
           className={`${
             activeChat ? "" : "hidden"
