@@ -117,10 +117,10 @@ const ContactContainer = ({ constctsContainer, setConstctsContainer }) => {
           Create <span className="text-[#2D9CDB] cursor-pointer"> Group</span>
         </p>
       </div>
-      <div className=" h-[600px]  flex flex-col duration-1000 ">
+      <div className=" h-[600px]  flex flex-col duration-1000  ">
         {filterUser?.map((item) => {
           return (
-            <div onClick={() => handelCreateChat(item)}>
+            <div className="" onClick={() => handelCreateChat(item)}>
               <ContactCard props={item} />
             </div>
           );

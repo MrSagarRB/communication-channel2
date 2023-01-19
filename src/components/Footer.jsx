@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ImAttachment } from "react-icons/im";
 import { CiPaperplane } from "react-icons/ci";
 import { api_baseUrl } from "../utils";
@@ -11,7 +11,8 @@ const Footer = () => {
   let { activeChat, setActiveChat } = useContext(ContextProvider);
   let { loggedUser } = useContext(ContextProvider);
 
-  let handelSendMessage = () => {
+  let handelSendMessage = (e) => {
+    e.preventDefault();
     axios
       .post(`${api_baseUrl}/sendMessage`, {
         id: activeChat,
@@ -20,15 +21,18 @@ const Footer = () => {
       })
       .then(() => {
         document.getElementById("msg").value = "";
-        alert("Sent");
+        // alert("Sent");
       });
 
     console.log(activeChat);
-
     console.log(newMessage);
     console.log(loggedUser._id);
   };
 
+  useEffect((
+
+    
+  ) => {}, [handelSendMessage]);
   return (
     <div className="px-[10px] py-[10px] flex items-center gap-[15px] border border-[#EEEEEE] h-[60px]  w-full   bg-[#fff]  ">
       <label
@@ -40,15 +44,17 @@ const Footer = () => {
       <input type="file" className="hidden" id="file" />
 
       <div className="bg-[#FAFAFA] w-[90%]  h-full">
-        <input
-          type="text"
-          id="msg"
-          placeholder="Type your message here.."
-          className="h-full w-full outline-none px-[10px] bg-transparent rounded-[12px]"
-          onChange={(e) => {
-            setNewMessage(e.target.value);
-          }}
-        />
+        <form onSubmit={(e) => handelSendMessage(e)}>
+          <input
+            type="text"
+            id="msg"
+            placeholder="Type your message here.."
+            className="h-full w-full outline-none px-[10px] bg-transparent rounded-[12px]"
+            onChange={(e) => {
+              setNewMessage(e.target.value);
+            }}
+          />
+        </form>
       </div>
 
       <button

@@ -19,7 +19,7 @@ const ContactCard = ({ props }) => {
           <span className="bottom-0 left-7 absolute  w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
         </div>
         <div>
-          <p>{props?.userName}</p>
+          <p className="capitalize  ">{props?.userName}</p>
           {/* <p>{getChatName()}</p> */}
           <p className="overflow-hidden w-[170px] text-[#9c9a9a] truncate ...">
             <p>ONLINE</p>

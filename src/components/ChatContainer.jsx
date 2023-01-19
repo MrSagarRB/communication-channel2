@@ -12,7 +12,22 @@ const ChatContainer = () => {
     return item._id === activeChat;
   });
 
-  // console.log(messages[0]);
+  let getSenderProfilePic = (id) => {
+    let sender = allUser.filter((item) => {
+      return item._id === id;
+    });
+
+    return sender[0].pic;
+  };
+
+  let getSenderName = (id) => {
+    let sender = allUser.filter((item) => {
+      return item._id === id;
+    });
+
+    return sender[0].userName;
+  };
+
   return (
     <div className=" flex flex-col  gap-[15px]   ">
       {activeChat === undefined ? (
@@ -26,30 +41,40 @@ const ChatContainer = () => {
           return (
             <div
               className={`${
-                item.senderId === loggedUser._id ? "" : "flex gap-[10px] "
+                item.senderId === loggedUser._id
+                  ? ""
+                  : "flex gap-[10px]   relative "
               }`}
             >
               <div
                 className={`${
                   item.senderId === loggedUser._id ? "hidden" : ""
-                } h-[50px] w-[50px`}
+                } h-[50px] w-[50px `}
               >
                 <img
                   className="h-[50px] w-[50px] rounded-full object-cover"
-                  src="https://i.pravatar.cc/300"
+                  src={getSenderProfilePic(item.senderId)}
                   alt=""
                 />
               </div>
 
+              <p
+                className={`absolute left-[60px] text-[12px] text-[#868383] capitalize ${
+                  item.senderId == loggedUser._id ? "hidden" : ""
+                }`}
+              >
+                {getSenderName(item.senderId)}, 10:00
+              </p>
               <div
-                className={`bg-[#F4F4F7] py-[10px] px-[20px]  sm:max-w-[70%]   ${
+                className={`bg-[#F4F4F7] py-[10px] px-[20px] mt-[20px]  sm:max-w-[70%] ${
                   item.senderId === loggedUser._id
                     ? "float-right rounded-b-[16px] rounded-tl-[16px]"
                     : "float-left rounded-b-[16px] rounded-tr-[16px]"
                 }`}
               >
                 <p>{item.text}</p>
-                <p className="text-[#868383]">15:42</p>
+
+                {/* <p className="text-[#868383]">15:42</p> */}
               </div>
             </div>
           );

@@ -20,7 +20,7 @@ const LoggedUserCard = () => {
           <div className="text-sm  text-[#27AE60] ">Online</div>
         </div>
       </div>
-      <div onClick={() => logOut()} className="test">
+      <div onClick={() => logOut()}>
         <BsThreeDotsVertical className="text-xl" />
       </div>
     </div>

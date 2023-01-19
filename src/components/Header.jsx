@@ -26,6 +26,23 @@ const Header = () => {
     }
   };
 
+  let getChatPic = () => {
+    if (activeChat) {
+      let currntChat = data.filter((item) => item._id == activeChat);
+      let senderUserId = currntChat[0].users.filter(
+        (item) => item !== loggedUser._id
+      );
+
+      let sender = allUser.filter((item) => item._id === senderUserId[0]);
+
+      if (currntChat[0].groupChat) {
+        return "https://cdn-icons-png.flaticon.com/512/166/166258.png";
+      } else {
+        return sender[0].pic;
+      }
+    }
+  };
+
   return (
     <div
       className={` h-full w-full border-b border-[#EEEEEE] px-[10px] flex  items-center justify-between shadow-sm`}
@@ -35,11 +52,11 @@ const Header = () => {
           width="100"
           height="100"
           className="w-10 h-10 rounded-full object-cover"
-          src="https://i.pravatar.cc/300"
+          src={getChatPic()}
           alt=""
         />
         <div className="font-medium ">
-          <p className="">
+          <p className="capitalize">
             {/* {activeChat === undefined ? "Sagar Borude" : activeChat} */}
             {getChatName()}
           </p>
