@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { api_baseUrl } from "../utils";
 import { ContextProvider } from "../Context";
-import { Cookies } from "react-cookie";
+import Cookies from "universal-cookie";
 
 const Login = () => {
   let [userDetails, setUserDetails] = useState();

@@ -7,15 +7,22 @@ const ChatContainer = () => {
   let { activeChat, setActiveChat, allUser, loggedUser } =
     useContext(ContextProvider);
   const { isLoading, error, data } = useQuery("allChats");
+  let filteredMsg;
 
   const messagesEndRef = useRef(null);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  let messages = data?.filter((item) => {
+  let allMessages = data?.filter((item) => {
     return item._id === activeChat;
   });
+
+  if (activeChat) {
+    filteredMsg = allMessages[0].messages.slice(0, 8).reverse();
+  } else {
+    console.log("no");
+  }
 
   let getSenderProfilePic = (id) => {
     let sender = allUser.filter((item) => {
@@ -29,15 +36,18 @@ const ChatContainer = () => {
     let sender = allUser.filter((item) => {
       return item._id === id;
     });
-
     return sender[0].userName;
   };
 
   useEffect(() => {
     scrollToBottom();
-  }, [data]);
+    setTimeout(() => {
+      scrollToBottom();
+    }, 2000);
+  }, [data, activeChat]);
+
   return (
-    <div className=" flex flex-col  gap-[15px]   ">
+    <div className=" flex flex-col  gap-[15px]">
       {activeChat === undefined ? (
         <div className=" h-full w-full flex items-center justify-center">
           <div className="h-[400px] w-[400px] overflow-hidden  mt-[150px]">
@@ -45,13 +55,13 @@ const ChatContainer = () => {
           </div>
         </div>
       ) : (
-        messages[0].messages?.map((item) => {
+        allMessages[0]?.messages?.map((item) => {
           return (
             <div
               className={`${
                 item.senderId === loggedUser._id
                   ? ""
-                  : "flex gap-[10px]   relative "
+                  : "flex gap-[10px] relative "
               }`}
             >
               <div
@@ -71,7 +81,7 @@ const ChatContainer = () => {
                   item.senderId == loggedUser._id ? "hidden" : ""
                 }`}
               >
-                {getSenderName(item.senderId)}, 10:00
+                {getSenderName(item?.senderId)}, <span>{item?.time}</span>
               </p>
               <div
                 className={`bg-[#F4F4F7] py-[10px] px-[20px] mt-[20px]  sm:max-w-[70%] ${

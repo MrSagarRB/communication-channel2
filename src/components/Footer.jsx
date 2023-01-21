@@ -15,22 +15,21 @@ const Footer = () => {
 
   let handelSendMessage = (e) => {
     e.preventDefault();
+    let d = new Date();
     axios
       .post(`${api_baseUrl}/sendMessage`, {
         id: activeChat,
         message: newMessage,
         senderID: loggedUser._id,
+        time: d.getHours() + ":" + d.getMinutes(),
       })
       .then(() => {
         document.getElementById("msg").value = "";
         refetch();
       });
-
-    console.log(activeChat);
-    console.log(newMessage);
-    console.log(loggedUser._id);
   };
 
+  console.log();
   return (
     <form onSubmit={(e) => handelSendMessage(e)} autocomplete="off">
       <div className="px-[10px] py-[10px] flex items-center gap-[15px] border border-[#EEEEEE] h-[60px]  w-full   bg-[#fff]  ">

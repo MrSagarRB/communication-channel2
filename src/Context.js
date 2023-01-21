@@ -2,9 +2,7 @@ import React, { createContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { api_baseUrl } from "./utils";
 import axios from "axios";
-import { Cookies } from "react-cookie";
-import { getCookie } from "./utils";
-import { useNavigate } from "react-router-dom";
+import Cookies from "universal-cookie";
 export const ContextProvider = createContext();
 
 const Context = ({ children }) => {
@@ -12,6 +10,7 @@ const Context = ({ children }) => {
   let [activeChat, setActiveChat] = useState();
   let [allUser, setAllUsers] = useState();
   let [loggedUser, setLoggedUser] = useState();
+  const cookies = new Cookies();
 
   let getAllUser = async () => {
     await axios
@@ -26,18 +25,11 @@ const Context = ({ children }) => {
     setVisible(false);
     console.log("closed");
   };
-  console.log(getCookie("token"));
 
   let logOut = () => {
     console.log("logout");
-    // Cookies.remove("token");
-    document.cookie =
-      "token" +
-      "=" +
-      (getCookie("token") || "") +
-      "; expires=" +
-      "Thu, 01 Jan 1970 00:00:01 GMT" +
-      ";domain=localhost;path=/";
+    cookies.remove("token");
+
     window.location.reload();
   };
 

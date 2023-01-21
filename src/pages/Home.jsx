@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import ChatContainer from "../components/ChatContainer";
 import ContactContainer from "../components/ContactContainer";
@@ -7,14 +7,22 @@ import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import { ContextProvider } from "../Context";
 import { AiOutlinePlus } from "react-icons/ai";
+import { io } from "socket.io-client";
 
 const Home = () => {
   let { user, activeChat, allUser } = useContext(ContextProvider);
   let [constctsContainer, setConstctsContainer] = useState(false);
 
+  const socket = useRef();
+
+  useEffect(() => {
+    socket.current = io("ws://localhost:8900");
+    console.log(socket.current);
+  }, []);
+
   return (
-    <div className=" flex h-screen">
-      <div className=" w-[337px] h-full hidden sm:inline-block relative">
+    <div className="flex h-screen ">
+      <div className=" w-[337px] h-full hidden sm:inline-block  relative">
         <div
           className={`transition-all duration-500 overflow-hidden ${
             !constctsContainer ? " w-0" : "w-full"
@@ -28,7 +36,7 @@ const Home = () => {
 
         <div
           onClick={() => setConstctsContainer(!constctsContainer)}
-          className=" absolute z-30 bottom-[20px] right-[20px] cursor-pointer flex flex-col justify-center"
+          className=" absolute z-30 bottom-[20px] right-[20px] cursor-pointer flex flex-col justify-center "
         >
           <button
             type="button"
@@ -39,7 +47,7 @@ const Home = () => {
         </div>
         <Sidebar />
       </div>
-      <div className=" w-full relative h-screen ">
+      <div className="w-full relative h-screen ">
         <div
           className={`${
             activeChat ? "" : "hidden"
