@@ -3,19 +3,29 @@ import { useQuery } from "react-query";
 import { api_baseUrl } from "./utils";
 import axios from "axios";
 import Cookies from "universal-cookie";
+import io from "socket.io-client";
 export const ContextProvider = createContext();
+
+const socket = io.connect("ws://localhost:8900");
 
 const Context = ({ children }) => {
   let [user, setUser] = useState("");
   let [activeChat, setActiveChat] = useState();
   let [allUser, setAllUsers] = useState();
   let [loggedUser, setLoggedUser] = useState();
+  let [onlineUser, setOnlineUsers] = useState([]);
   const cookies = new Cookies();
 
   let getAllUser = async () => {
     await axios
       .get(`${api_baseUrl}/getAllUser`)
       .then((result) => setAllUsers(result.data));
+  };
+
+  let getAllOnlineUse = async () => {
+    await axios
+      .get(`${api_baseUrl}/getOnlineUsers`)
+      .then((result) => setOnlineUsers(result.data));
   };
 
   // Modal
@@ -33,10 +43,10 @@ const Context = ({ children }) => {
     window.location.reload();
   };
 
-  console.log(loggedUser);
   useEffect(() => {
+    getAllOnlineUse();
     getAllUser();
-  }, []);
+  }, [socket]);
 
   return (
     <ContextProvider.Provider
@@ -52,6 +62,7 @@ const Context = ({ children }) => {
         closeHandler,
         logOut,
         getAllUser,
+        onlineUser,
       }}
     >
       {children}

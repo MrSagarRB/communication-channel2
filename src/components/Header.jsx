@@ -43,6 +43,24 @@ const Header = () => {
     }
   };
 
+  let getStatus = () => {
+    if (activeChat) {
+      let currntChat = data?.filter((item) => item._id == activeChat);
+      if (currntChat[0].groupChat) {
+        console.log(currntChat[0].messages[0].time);
+        return (
+          <p className="">
+            Last Message &nbsp;
+            {currntChat[0]?.messages[currntChat[0]?.messages.length - 1]?.time}
+          </p>
+        );
+      } else {
+        return <p className="text-[#27AE60] "> Online</p>;
+      }
+    } else {
+    }
+  };
+
   return (
     <div
       className={` h-full w-full border-b border-[#EEEEEE] px-[10px] flex  items-center justify-between shadow-sm`}
@@ -60,7 +78,7 @@ const Header = () => {
             {/* {activeChat === undefined ? "Sagar Borude" : activeChat} */}
             {getChatName()}
           </p>
-          <div className="text-sm  text-[#27AE60] ">Online</div>
+          <div className="text-sm">{getStatus()}</div>
         </div>
       </div>
       <div className="flex text-[30px] gap-[20px]  ">

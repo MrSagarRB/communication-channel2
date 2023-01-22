@@ -4,7 +4,7 @@ import { ContextProvider } from "../Context";
 // import { userId } from "../utils";
 
 const UserContainer = ({ props }) => {
-  let { activeChat, setActiveChat, allUser, loggedUser } =
+  let { activeChat, setActiveChat, allUser, loggedUser, onlineUser } =
     useContext(ContextProvider);
 
   let getChatName = () => {
@@ -26,7 +26,7 @@ const UserContainer = ({ props }) => {
     }
   };
 
-  // console.log(props);
+  let lastMsgIndex = props?.messages?.length - 1;
 
   return (
     <div
@@ -42,17 +42,22 @@ const UserContainer = ({ props }) => {
             src={getChatName()?.pic}
             alt=""
           />
-          <span className="bottom-0 left-7 absolute  w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
+
+          {/* {onlineUser.includes(props._id) ? (
+            <span
+              className={`bottom-0 left-7 absolute bg-green-400   w-3.5 h-3.5 border-2 border-white dark:border-gray-800 rounded-full`}
+            ></span>
+          ) : null} */}
         </div>
         <div>
           <p className="capitalize">{getChatName()?.chatname}</p>
           <p className="overflow-hidden w-[170px] text-[#9c9a9a] truncate ...">
-            <p>Helo world</p>
+            <p>{props?.messages[props?.messages?.length - 1]?.text}</p>
           </p>
         </div>
       </div>
       <div className="flex flex-col  items-end">
-        <p className="">16:12</p>
+        <p className="">{props?.messages[props?.messages?.length - 1]?.time}</p>
         <RiCheckDoubleLine className=" " />
       </div>
     </div>

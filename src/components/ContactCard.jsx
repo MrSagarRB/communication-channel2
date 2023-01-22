@@ -1,7 +1,9 @@
-import React from "react";
-import { RiCheckDoubleLine } from "react-icons/ri";
+import React, { useContext } from "react";
+import { ContextProvider } from "../Context";
 
 const ContactCard = ({ props }) => {
+  let { onlineUser } = useContext(ContextProvider);
+
   return (
     <div
       className={`px-[20px]  
@@ -16,13 +18,25 @@ const ContactCard = ({ props }) => {
             src={props.pic}
             alt=""
           />
-          <span className="bottom-0 left-7 absolute  w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
+
+          {onlineUser.includes(props._id) ? (
+            <span
+              className={`bottom-0 left-7 absolute bg-green-400   w-3.5 h-3.5 border-2 border-white dark:border-gray-800 rounded-full`}
+            ></span>
+          ) : null}
         </div>
         <div>
           <p className="capitalize  ">{props?.userName}</p>
           {/* <p>{getChatName()}</p> */}
           <p className="overflow-hidden w-[170px] text-[#9c9a9a] truncate ...">
-            <p>ONLINE</p>
+            <div>
+              {onlineUser.includes(props._id) ? (
+                <p className="animate-pulse"> Online</p>
+              ) : (
+                " Last Seen 10:15"
+              )}
+            </div>
+            {/* <p>{console.log(props._id)} </p> */}
           </p>
         </div>
       </div>

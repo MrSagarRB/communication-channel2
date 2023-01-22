@@ -5,13 +5,15 @@ import { api_baseUrl } from "../utils";
 import axios from "axios";
 import { ContextProvider } from "../Context";
 import { useQuery } from "react-query";
-// import { userId } from "../utils";
+import io from "socket.io-client";
 
 const Footer = () => {
   let [newMessage, setNewMessage] = useState();
   let { activeChat, setActiveChat } = useContext(ContextProvider);
   let { loggedUser, getAllUser } = useContext(ContextProvider);
   const { isLoading, error, data, refetch } = useQuery("allChats");
+
+  const socket = io.connect("ws://localhost:8900");
 
   let handelSendMessage = (e) => {
     e.preventDefault();
@@ -25,11 +27,12 @@ const Footer = () => {
       })
       .then(() => {
         document.getElementById("msg").value = "";
+        setNewMessage();
         refetch();
+        socket.emit("sendMsg", newMessage);
       });
   };
 
-  console.log();
   return (
     <form onSubmit={(e) => handelSendMessage(e)} autocomplete="off">
       <div className="px-[10px] py-[10px] flex items-center gap-[15px] border border-[#EEEEEE] h-[60px]  w-full   bg-[#fff]  ">
@@ -43,6 +46,7 @@ const Footer = () => {
 
         <div className="bg-[#FAFAFA] w-[90%]  h-full">
           <input
+            required
             autocomplete="off"
             type="text"
             id="msg"

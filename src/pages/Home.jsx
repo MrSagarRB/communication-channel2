@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import ChatContainer from "../components/ChatContainer";
 import ContactContainer from "../components/ContactContainer";
 import Footer from "../components/Footer";
@@ -7,18 +6,20 @@ import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import { ContextProvider } from "../Context";
 import { AiOutlinePlus } from "react-icons/ai";
-import { io } from "socket.io-client";
+import io from "socket.io-client";
 
 const Home = () => {
-  let { user, activeChat, allUser } = useContext(ContextProvider);
+  let { user, activeChat, allUser, loggedUser } = useContext(ContextProvider);
   let [constctsContainer, setConstctsContainer] = useState(false);
 
-  const socket = useRef();
+  const socket = io.connect("ws://localhost:8900");
 
   useEffect(() => {
-    socket.current = io("ws://localhost:8900");
-    console.log(socket.current);
-  }, []);
+    socket.emit("user_online", loggedUser._id);
+    socket.on("receive_msg", (data) => {
+      console.log(data);
+    });
+  }, [socket]);
 
   return (
     <div className="flex h-screen ">

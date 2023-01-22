@@ -7,8 +7,15 @@ import ContactCard from "./ContactCard";
 import { Modal, Button, Image, Text, Link } from "@nextui-org/react";
 
 const ContactContainer = ({ constctsContainer, setConstctsContainer }) => {
-  let { allUser, loggedUser, setActiveChat, visible, closeHandler, handler } =
-    useContext(ContextProvider);
+  let {
+    allUser,
+    loggedUser,
+    setActiveChat,
+    visible,
+    closeHandler,
+    handler,
+    onlineUser,
+  } = useContext(ContextProvider);
 
   let [inputCheck, setInputCheck] = useState([loggedUser._id]);
   let [inputGroupName, setInputGroupName] = useState();
@@ -52,7 +59,7 @@ const ContactContainer = ({ constctsContainer, setConstctsContainer }) => {
   };
 
   let filterUser = allUser?.filter((item) => item._id !== loggedUser._id);
-  console.log(inputGroupName);
+
   return (
     <div className="h-full w-full border-r border-[#EEEEEE] shadow-sm bg-[#EEEEEE] ">
       <Modal noPadding open={visible} onClose={closeHandler}>
@@ -70,7 +77,7 @@ const ContactContainer = ({ constctsContainer, setConstctsContainer }) => {
             />
           </div>
           <div className=" h-[300px] flex flex-col px-[20px] overflow-y-scroll">
-            {allUser.map((item, ind) => {
+            {allUser?.map((item, ind) => {
               return (
                 <div class="flex items-center mb-4">
                   <input

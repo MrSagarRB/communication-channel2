@@ -21,7 +21,6 @@ const ChatContainer = () => {
   if (activeChat) {
     filteredMsg = allMessages[0].messages.slice(0, 8).reverse();
   } else {
-    console.log("no");
   }
 
   let getSenderProfilePic = (id) => {
