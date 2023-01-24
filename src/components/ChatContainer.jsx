@@ -1,12 +1,21 @@
-import React, { useContext, useEffect, useRef } from "react";
+import axios from "axios";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { ContextProvider } from "../Context";
 import { api_baseUrl } from "../utils";
 
 const ChatContainer = () => {
-  let { activeChat, setActiveChat, allUser, loggedUser } =
+  let [data, setData] = useState(["test"]);
+  let { activeChat, setActiveChat, allUser, loggedUser, socket } =
     useContext(ContextProvider);
-  const { isLoading, error, data } = useQuery("allChats");
+  // const { isLoading, error, data } = useQuery("allChats");
+
+  let getAllMsg = async () => {
+    await axios
+      .get(`${api_baseUrl}/getAllChats`)
+      .then((result) => setData(result.data));
+  };
+
   let filteredMsg;
 
   const messagesEndRef = useRef(null);
@@ -28,7 +37,7 @@ const ChatContainer = () => {
       return item._id === id;
     });
 
-    return sender[0].pic;
+    return sender[0]?.pic;
   };
 
   let getSenderName = (id) => {
@@ -39,11 +48,12 @@ const ChatContainer = () => {
   };
 
   useEffect(() => {
+    getAllMsg();
     scrollToBottom();
     setTimeout(() => {
       scrollToBottom();
     }, 2000);
-  }, [data, activeChat]);
+  }, [data, activeChat, socket]);
 
   return (
     <div className=" flex flex-col  gap-[15px]">

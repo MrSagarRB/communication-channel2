@@ -5,15 +5,15 @@ import { api_baseUrl } from "../utils";
 import axios from "axios";
 import { ContextProvider } from "../Context";
 import { useQuery } from "react-query";
-import io from "socket.io-client";
+// import io from "socket.io-client";
 
 const Footer = () => {
   let [newMessage, setNewMessage] = useState();
-  let { activeChat, setActiveChat } = useContext(ContextProvider);
-  let { loggedUser, getAllUser } = useContext(ContextProvider);
+  let { loggedUser, getAllUser, activeChat, setActiveChat, socket } =
+    useContext(ContextProvider);
   const { isLoading, error, data, refetch } = useQuery("allChats");
 
-  const socket = io.connect("ws://localhost:8900");
+  // const socket = io.connect("ws://localhost:8900");
 
   let handelSendMessage = (e) => {
     e.preventDefault();

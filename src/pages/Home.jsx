@@ -6,13 +6,14 @@ import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import { ContextProvider } from "../Context";
 import { AiOutlinePlus } from "react-icons/ai";
-import io from "socket.io-client";
+// import io from "socket.io-client";
 
 const Home = () => {
-  let { user, activeChat, allUser, loggedUser } = useContext(ContextProvider);
+  let { user, activeChat, allUser, loggedUser, socket } =
+    useContext(ContextProvider);
   let [constctsContainer, setConstctsContainer] = useState(false);
 
-  const socket = io.connect("ws://localhost:8900");
+  // const socket = io.connect("ws://localhost:3005");
 
   useEffect(() => {
     socket.emit("user_online", loggedUser._id);

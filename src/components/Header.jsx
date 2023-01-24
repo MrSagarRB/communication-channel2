@@ -47,7 +47,7 @@ const Header = () => {
     if (activeChat) {
       let currntChat = data?.filter((item) => item._id == activeChat);
       if (currntChat[0].groupChat) {
-        console.log(currntChat[0].messages[0].time);
+        // console.log(currntChat[0].messages[0].time);
         return (
           <p className="">
             Last Message &nbsp;

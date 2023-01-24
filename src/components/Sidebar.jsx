@@ -6,14 +6,30 @@ import { api_baseUrl, userId } from "../utils";
 import { ContextProvider } from "../Context";
 import Loader from "./Loader";
 import LoggedUserCard from "./LoggedUserCard";
+import axios from "axios";
 
 const Sidebar = () => {
-  const { isLoading, error, data } = useQuery("allChats", () =>
+  let [data, setData] = useState();
+
+  const { isLoading, error, refetch } = useQuery("allChats", () =>
     fetch(`${api_baseUrl}/getAllChats`).then((res) => res.json())
   );
 
-  const { user, activeChat, setActiveChat, loggedUser } =
+  let getAllMsg = async () => {
+    await axios
+      .get(`${api_baseUrl}/getAllChats`)
+      .then((result) => setData(result.data));
+  };
+
+  const { user, activeChat, setActiveChat, loggedUser, socket } =
     useContext(ContextProvider);
+
+  useEffect(() => {
+    socket.on("receive_msg", (msgData) => {
+      console.log(msgData);
+    });
+    getAllMsg();
+  }, [data]);
 
   return (
     <div className="h-full w-full border-r border-[#EEEEEE] shadow-sm">

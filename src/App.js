@@ -16,9 +16,6 @@ const queryClient = new QueryClient();
 const App = () => {
   let { loggedUser } = useContext(ContextProvider);
 
-
-  
-
   return (
     <div>
       <QueryClientProvider client={queryClient}>

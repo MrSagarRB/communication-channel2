@@ -4,9 +4,11 @@ import { api_baseUrl } from "./utils";
 import axios from "axios";
 import Cookies from "universal-cookie";
 import io from "socket.io-client";
-export const ContextProvider = createContext();
+const socket = io.connect("http://192.168.1.101:3005");
 
-const socket = io.connect("ws://localhost:8900");
+socket.emit("connection");
+
+export const ContextProvider = createContext();
 
 const Context = ({ children }) => {
   let [user, setUser] = useState("");
@@ -39,7 +41,7 @@ const Context = ({ children }) => {
   let logOut = () => {
     console.log("logout");
     cookies.remove("token");
-
+    socket.emit("user_offline", loggedUser._id);
     window.location.reload();
   };
 
@@ -63,6 +65,7 @@ const Context = ({ children }) => {
         logOut,
         getAllUser,
         onlineUser,
+        socket,
       }}
     >
       {children}
