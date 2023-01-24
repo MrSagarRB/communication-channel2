@@ -32,7 +32,7 @@ const App = () => {
               }
             />
             <Route
-              path="/home"
+              path="/homee"
               element={
                 loggedUser === undefined ? (
                   <Navigate replace to="/" />
