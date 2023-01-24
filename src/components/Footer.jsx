@@ -34,8 +34,12 @@ const Footer = () => {
   };
 
   return (
-    <form onSubmit={(e) => handelSendMessage(e)} autocomplete="off">
-      <div className="px-[10px] py-[10px] flex items-center gap-[15px] border border-[#EEEEEE] h-[60px]  w-full   bg-[#fff]  ">
+    <form
+      onSubmit={(e) => handelSendMessage(e)}
+      autocomplete="off"
+      className="h-full"
+    >
+      <div className="px-[10px] py-[10px] flex items-center gap-[15px] border border-[#EEEEEE] h-[100%]  w-full   bg-[#fff]  ">
         <label
           htmlFor="file"
           className="hover:bg-[#FAFAFA] duration-300 cursor-pointer rounded-full p-2"

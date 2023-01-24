@@ -17,7 +17,7 @@ const App = () => {
   let { loggedUser } = useContext(ContextProvider);
 
   return (
-    <div>
+    <div className="">
       <QueryClientProvider client={queryClient}>
         <Router>
           <Routes>
@@ -32,7 +32,7 @@ const App = () => {
               }
             />
             <Route
-              path="/homee"
+              path="/home"
               element={
                 loggedUser === undefined ? (
                   <Navigate replace to="/" />

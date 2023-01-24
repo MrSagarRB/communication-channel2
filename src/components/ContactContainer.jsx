@@ -61,7 +61,7 @@ const ContactContainer = ({ constctsContainer, setConstctsContainer }) => {
   let filterUser = allUser?.filter((item) => item._id !== loggedUser._id);
 
   return (
-    <div className="h-full w-full border-r border-[#EEEEEE] shadow-sm bg-[#EEEEEE] ">
+    <div className="h-full  w-full border-r border-[#EEEEEE] shadow-sm bg-[#EEEEEE] ">
       <Modal noPadding open={visible} onClose={closeHandler}>
         <div className="h-[500px] p-[20px] flex flex-col">
           <div class="mb-6">
@@ -124,7 +124,7 @@ const ContactContainer = ({ constctsContainer, setConstctsContainer }) => {
           Create <span className="text-[#2D9CDB] cursor-pointer"> Group</span>
         </p>
       </div>
-      <div className=" h-[600px]  flex flex-col duration-1000  ">
+      <div className=" h-[70%]  flex flex-col duration-1000 overflow-y-scroll  ">
         {filterUser?.map((item) => {
           return (
             <div className="" onClick={() => handelCreateChat(item)}>

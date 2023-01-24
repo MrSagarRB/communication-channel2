@@ -26,8 +26,6 @@ const UserContainer = ({ props }) => {
     }
   };
 
-  let lastMsgIndex = props?.messages?.length - 1;
-
   return (
     <div
       className={`px-[20px]  ${activeChat === props._id ? "bg-[#EEEEEE]" : ""} 
@@ -42,12 +40,6 @@ const UserContainer = ({ props }) => {
             src={getChatName()?.pic}
             alt=""
           />
-
-          {/* {onlineUser.includes(props._id) ? (
-            <span
-              className={`bottom-0 left-7 absolute bg-green-400   w-3.5 h-3.5 border-2 border-white dark:border-gray-800 rounded-full`}
-            ></span>
-          ) : null} */}
         </div>
         <div>
           <p className="capitalize">{getChatName()?.chatname}</p>
@@ -58,7 +50,9 @@ const UserContainer = ({ props }) => {
       </div>
       <div className="flex flex-col  items-end">
         <p className="">{props?.messages[props?.messages?.length - 1]?.time}</p>
-        <RiCheckDoubleLine className=" " />
+        <RiCheckDoubleLine
+          className={props?.messages == "" ? "invisible" : ""}
+        />
       </div>
     </div>
   );

@@ -26,7 +26,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     socket.on("receive_msg", (msgData) => {
-      console.log(msgData);
+      // console.log(msgData);
     });
     getAllMsg();
   }, [data]);
@@ -51,7 +51,7 @@ const Sidebar = () => {
         </p>
       </div>
 
-      <div className=" h-[600px] w-[337px] flex flex-col duration-1000 overflow-y-scroll">
+      <div className="w-[337px] h-[70%] flex flex-col duration-1000 overflow-y-scroll  ">
         {data?.map((item, ind) => {
           return item?.users?.filter((user) => user === loggedUser._id)
             ?.length ? (

@@ -3,12 +3,16 @@
 @tailwind utilities;
 
 ::-webkit-scrollbar {
-  width: 0; /* Remove scrollbar space */
-  background: transparent; /* Optional: just make scrollbar invisible */
+  width: 0px;
+  background: transparent;
 }
 
 @layer components {
   .test {
     @apply border border-red-600;
   }
+}
+
+.chat_container_h {
+  height: calc(100vh - 160px);
 }

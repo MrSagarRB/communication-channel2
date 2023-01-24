@@ -14,6 +14,7 @@ const ChatContainer = () => {
     await axios
       .get(`${api_baseUrl}/getAllChats`)
       .then((result) => setData(result.data));
+    console.log("run");
   };
 
   let filteredMsg;
@@ -50,13 +51,13 @@ const ChatContainer = () => {
   useEffect(() => {
     getAllMsg();
     scrollToBottom();
-    setTimeout(() => {
-      scrollToBottom();
-    }, 2000);
-  }, [data, activeChat, socket]);
+    // setTimeout(() => {
+    //   scrollToBottom();
+    // }, 2000);
+  }, [activeChat, socket]);
 
   return (
-    <div className=" flex flex-col  gap-[15px]">
+    <div className=" flex flex-col   gap-[15px]">
       {activeChat === undefined ? (
         <div className=" h-full w-full flex items-center justify-center">
           <div className="h-[400px] w-[400px] overflow-hidden  mt-[150px]">

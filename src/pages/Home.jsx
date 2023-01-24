@@ -18,15 +18,19 @@ const Home = () => {
   useEffect(() => {
     socket.emit("user_online", loggedUser._id);
     socket.on("receive_msg", (data) => {
-      console.log(data);
+      console.log("data");
     });
   }, [socket]);
 
   return (
-    <div className="flex h-screen ">
-      <div className=" w-[337px] h-full hidden sm:inline-block  relative">
+    <div className="flex  h-screen ">
+      <div
+        className={` ${
+          activeChat ? "hidden" : ""
+        } w-[337px] h-full   sm:inline-block   relative`}
+      >
         <div
-          className={`transition-all duration-500 overflow-hidden ${
+          className={`transition-all duration-500 overflow-hidden  ${
             !constctsContainer ? " w-0" : "w-full"
           } h-full  absolute z-20 `}
         >
@@ -49,24 +53,24 @@ const Home = () => {
         </div>
         <Sidebar />
       </div>
-      <div className="w-full relative h-screen ">
-        <div
-          className={`${
-            activeChat ? "" : "hidden"
-          }  duration-500 h-[10%] sticky top-0`}
-        >
+      <div
+        className={`w-full h-screen ${
+          activeChat ? "" : "hidden"
+        } sm:inline-block`}
+      >
+        <div className={`${activeChat ? "" : "hidden"}  duration-500 h-[90px]`}>
           <Header />
         </div>
 
         <div
           className={`duration-500 ${
-            activeChat ? "h-[82%]" : "h-full"
-          }  px-[20px] py-[20px]  overflow-y-scroll bg-[#FAFAFA]`}
+            activeChat ? "chat_container_h" : "h-full"
+          }  px-[20px] py-[20px] bg-[#FAFAFA]  overflow-y-scroll`}
         >
           <ChatContainer />
         </div>
 
-        <div className={`h-[8%] ${activeChat ? "" : "hidden"} `}>
+        <div className={`h-[70px] ${activeChat ? "" : "hidden"}  `}>
           <Footer />
         </div>
       </div>
