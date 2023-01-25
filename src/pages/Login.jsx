@@ -9,16 +9,25 @@ const Login = () => {
   let [userDetails, setUserDetails] = useState();
   let { setLoggedUser } = useContext(ContextProvider);
   const cookies = new Cookies();
-
   const navigate = useNavigate();
 
+  // let checkToken = () => {
+  //   let stroredToken = cookies.get("token");
+  //   if (stroredToken) {
+  //     axios.post(`/api/getUserByID`, { token: stroredToken }).then((result) => {
+  //       setLoggedUser(result.data[0]);
+  //     });
+  //   } else {
+  //     console.log("no");
+  //   }
+  
   let handelInputChange = (e) => {
     setUserDetails({ ...userDetails, [e.target.name]: e.target.value });
   };
 
   let handelLogin = (e) => {
     e.preventDefault();
-    axios.post(`${api_baseUrl}/login`, userDetails).then((result) => {
+    axios.post(`/api/login`, userDetails).then((result) => {
       console.log(result.data);
       if (result.data[0] === undefined) {
         alert("Wrong Email");

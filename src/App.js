@@ -25,11 +25,9 @@ const App = () => {
   let checkToken = () => {
     let stroredToken = cookies.get("token");
     if (stroredToken) {
-      axios
-        .post(`${api_baseUrl}/getUserByID`, { token: stroredToken })
-        .then((result) => {
-          setLoggedUser(result.data[0]);
-        });
+      axios.post(`/getUserByID`, { token: stroredToken }).then((result) => {
+        setLoggedUser(result.data[0]);
+      });
     } else {
       console.log("no");
     }

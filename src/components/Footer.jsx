@@ -19,7 +19,7 @@ const Footer = () => {
     e.preventDefault();
     let d = new Date();
     axios
-      .post(`${api_baseUrl}/sendMessage`, {
+      .post(`/sendMessage`, {
         id: activeChat,
         message: newMessage,
         senderID: loggedUser._id,
