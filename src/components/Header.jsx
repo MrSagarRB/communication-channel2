@@ -2,17 +2,13 @@ import React, { useContext } from "react";
 import { HiOutlineVideoCamera } from "react-icons/hi";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { ContextProvider } from "../Context";
-import { useQuery } from "react-query";
-// import { userId } from "../utils";
+
 const Header = () => {
-  let { activeChat, setActiveChat, allUser, loggedUser } =
-    useContext(ContextProvider);
-  const { isLoading, error, data } = useQuery("allChats");
+  let { activeChat, allUser, loggedUser, chats } = useContext(ContextProvider);
 
   let getChatName = () => {
     if (activeChat) {
-      let currntChat = data.filter((item) => item._id == activeChat);
-
+      let currntChat = chats?.filter((item) => item._id == activeChat);
       if (currntChat[0].groupChat) {
         return currntChat[0]?.groupName;
       } else {
@@ -28,7 +24,7 @@ const Header = () => {
 
   let getChatPic = () => {
     if (activeChat) {
-      let currntChat = data.filter((item) => item._id == activeChat);
+      let currntChat = chats?.filter((item) => item._id == activeChat);
       let senderUserId = currntChat[0].users.filter(
         (item) => item !== loggedUser._id
       );
@@ -45,7 +41,7 @@ const Header = () => {
 
   let getStatus = () => {
     if (activeChat) {
-      let currntChat = data?.filter((item) => item._id == activeChat);
+      let currntChat = chats?.filter((item) => item._id == activeChat);
       if (currntChat[0].groupChat) {
         // console.log(currntChat[0].messages[0].time);
         return (
@@ -74,10 +70,7 @@ const Header = () => {
           alt=""
         />
         <div className="font-medium ">
-          <p className="capitalize">
-            {/* {activeChat === undefined ? "Sagar Borude" : activeChat} */}
-            {getChatName()}
-          </p>
+          <p className="capitalize">{getChatName()}</p>
           <div className="text-sm">{getStatus()}</div>
         </div>
       </div>

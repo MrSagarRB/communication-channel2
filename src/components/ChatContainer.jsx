@@ -1,35 +1,18 @@
 import axios from "axios";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { useQuery, useQueryClient } from "react-query";
 import { ContextProvider } from "../Context";
-import { api_baseUrl } from "../utils";
 
 const ChatContainer = () => {
-  let [data, setData] = useState(["test"]);
-  let { activeChat, setActiveChat, allUser, loggedUser, socket } =
+  let { activeChat, chats, allUser, loggedUser, api_baseUrl } =
     useContext(ContextProvider);
-  // const { isLoading, error, data } = useQuery("allChats");
-
-  let getAllMsg = async () => {
-    await axios.get(`/api/getAllChats`).then((result) => setData(result.data));
-    console.log("run");
-  };
-
-  let filteredMsg;
-
   const messagesEndRef = useRef(null);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  let allMessages = data?.filter((item) => {
+  let allMessages = chats?.filter((item) => {
     return item._id === activeChat;
   });
-
-  if (activeChat) {
-    filteredMsg = allMessages[0].messages.slice(0, 8).reverse();
-  } else {
-  }
 
   let getSenderProfilePic = (id) => {
     let sender = allUser.filter((item) => {
@@ -45,14 +28,6 @@ const ChatContainer = () => {
     });
     return sender[0].userName;
   };
-
-  useEffect(() => {
-    getAllMsg();
-    scrollToBottom();
-    // setTimeout(() => {
-    //   scrollToBottom();
-    // }, 2000);
-  }, [activeChat, socket]);
 
   return (
     <div className=" flex flex-col   gap-[15px]">

@@ -2,33 +2,25 @@ import axios from "axios";
 import React, { useContext, useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import { ContextProvider } from "../Context";
-import { api_baseUrl } from "../utils";
 import ContactCard from "./ContactCard";
-import { Modal, Button, Image, Text, Link } from "@nextui-org/react";
+import { Modal } from "@nextui-org/react";
 
-const ContactContainer = ({ constctsContainer, setConstctsContainer }) => {
-  let {
-    allUser,
-    loggedUser,
-    setActiveChat,
-    visible,
-    closeHandler,
-    handler,
-    onlineUser,
-  } = useContext(ContextProvider);
+const ContactContainer = ({ setConstctsContainer }) => {
+  let { allUser, loggedUser, visible, closeHandler, handler, api_baseUrl } =
+    useContext(ContextProvider);
 
   let [inputCheck, setInputCheck] = useState([loggedUser._id]);
   let [inputGroupName, setInputGroupName] = useState();
 
   let handelCreateChat = async (item) => {
     axios
-      .post(`/api/findChatByID`, {
+      .post(`${api_baseUrl()}/findChatByID`, {
         users: [item._id, loggedUser._id],
       })
       .then((result) => {
         if (result.data[0] === undefined) {
           axios
-            .post(`/api/createNewChat`, {
+            .post(`${api_baseUrl()}/createNewChat`, {
               users: [item._id, loggedUser._id],
               members: [item.userName, loggedUser.userName],
               groupChat: false,
@@ -45,7 +37,7 @@ const ContactContainer = ({ constctsContainer, setConstctsContainer }) => {
 
   let handelCreateGroupChat = async () => {
     axios
-      .post(`/api/createNewChat`, {
+      .post(`${api_baseUrl()}/createNewChat`, {
         groupChat: true,
         users: inputCheck,
         admin: loggedUser._id,

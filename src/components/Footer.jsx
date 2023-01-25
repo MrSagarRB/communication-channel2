@@ -1,25 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ImAttachment } from "react-icons/im";
 import { CiPaperplane } from "react-icons/ci";
-import { api_baseUrl } from "../utils";
 import axios from "axios";
 import { ContextProvider } from "../Context";
-import { useQuery } from "react-query";
-// import io from "socket.io-client";
 
 const Footer = () => {
   let [newMessage, setNewMessage] = useState();
-  let { loggedUser, getAllUser, activeChat, setActiveChat, socket } =
-    useContext(ContextProvider);
-  const { isLoading, error, data, refetch } = useQuery("allChats");
-
-  // const socket = io.connect("ws://localhost:8900");
+  let { loggedUser, activeChat, api_baseUrl } = useContext(ContextProvider);
 
   let handelSendMessage = (e) => {
     e.preventDefault();
     let d = new Date();
     axios
-      .post(`/api/sendMessage`, {
+      .post(`${api_baseUrl()}/sendMessage`, {
         id: activeChat,
         message: newMessage,
         senderID: loggedUser._id,
@@ -28,8 +21,6 @@ const Footer = () => {
       .then(() => {
         document.getElementById("msg").value = "";
         setNewMessage();
-        refetch();
-        socket.emit("sendMsg", newMessage);
       });
   };
 

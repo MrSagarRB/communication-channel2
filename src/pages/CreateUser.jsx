@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { api_baseUrl } from "../utils";
 import profilePic from "../json/profilePic.json";
+import { ContextProvider } from "../Context";
 
 const CreateUser = () => {
   let [newUser, setNewUser] = useState();
+  let { api_baseUrl } = useContext(ContextProvider);
   const navigate = useNavigate();
 
   let getProfilePic = () => {
@@ -22,7 +23,7 @@ const CreateUser = () => {
 
   let createUser = async (e) => {
     e.preventDefault();
-    axios.post(`/api/createUser`, newUser).then(() => {
+    axios.post(`${api_baseUrl()}/createUser`, newUser).then(() => {
       alert("Account Created Successfully");
       navigate("/");
     });

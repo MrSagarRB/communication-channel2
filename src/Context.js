@@ -1,12 +1,11 @@
 import React, { createContext, useEffect, useState } from "react";
-import { useQuery } from "react-query";
-import { api_baseUrl } from "./utils";
 import axios from "axios";
 import Cookies from "universal-cookie";
 import io from "socket.io-client";
 const socket = io.connect("http://192.168.1.101:3005");
-
-socket.emit("connection");
+socket.emit("test_socket", () => {
+  console.log("connected");
+});
 
 export const ContextProvider = createContext();
 
@@ -18,15 +17,24 @@ const Context = ({ children }) => {
   let [onlineUser, setOnlineUsers] = useState([]);
   let [visible, setVisible] = useState(false);
   let [constctsContainer, setConstctsContainer] = useState(false);
+  // tested
+  let [chats, setAllChats] = useState();
 
   // Variables
   const cookies = new Cookies();
 
   // Function
+  const api_baseUrl = () => {
+    if (window.location.origin == "http://192.168.1.101:3000") {
+      return "http://192.168.1.101:3005/api";
+    } else {
+      return "/api";
+    }
+  };
+
   let logOut = () => {
     console.log("logout");
     cookies.remove("token");
-    socket.emit("user_offline", loggedUser._id);
     window.location.reload();
   };
 
@@ -40,20 +48,27 @@ const Context = ({ children }) => {
 
   let getAllUser = async () => {
     await axios
-      .get(`/api/getAllUser`)
+      .get(`${api_baseUrl()}/getAllUsers`)
       .then((result) => setAllUsers(result.data));
   };
 
-  let getAllOnlineUse = async () => {
+  let getAllOnlineUsers = async () => {
     await axios
-      .get(`/api/getOnlineUsers`)
+      .get(`${api_baseUrl()}/getOnlineUsers`)
       .then((result) => setOnlineUsers(result.data));
   };
 
+  let getAllChats = async () => {
+    await axios
+      .get(`${api_baseUrl()}/getAllChats`)
+      .then((result) => setAllChats(result.data));
+  };
+
   useEffect(() => {
-    getAllOnlineUse();
+    getAllOnlineUsers();
     getAllUser();
-  }, [socket]);
+    getAllChats();
+  }, []);
 
   return (
     <ContextProvider.Provider
@@ -70,9 +85,10 @@ const Context = ({ children }) => {
         logOut,
         getAllUser,
         onlineUser,
-        socket,
         constctsContainer,
         setConstctsContainer,
+        api_baseUrl,
+        chats,
       }}
     >
       {children}
