@@ -14,13 +14,13 @@ const Login = () => {
   // let checkToken = () => {
   //   let stroredToken = cookies.get("token");
   //   if (stroredToken) {
-  //     axios.post(`/api/getUserByID`, { token: stroredToken }).then((result) => {
+  //     axios.post(`/api/api/getUserByID`, { token: stroredToken }).then((result) => {
   //       setLoggedUser(result.data[0]);
   //     });
   //   } else {
   //     console.log("no");
   //   }
-  
+
   let handelInputChange = (e) => {
     setUserDetails({ ...userDetails, [e.target.name]: e.target.value });
   };

@@ -22,7 +22,7 @@ const CreateUser = () => {
 
   let createUser = async (e) => {
     e.preventDefault();
-    axios.post(`/createUser`, newUser).then(() => {
+    axios.post(`/api/createUser`, newUser).then(() => {
       alert("Account Created Successfully");
       navigate("/");
     });

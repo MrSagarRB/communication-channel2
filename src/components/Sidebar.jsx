@@ -12,11 +12,11 @@ const Sidebar = () => {
   let [data, setData] = useState();
 
   const { isLoading, error, refetch } = useQuery("allChats", () =>
-    fetch(`/getAllChats`).then((res) => res.json())
+    fetch(`/api/getAllChats`).then((res) => res.json())
   );
 
   let getAllMsg = async () => {
-    await axios.get(`/getAllChats`).then((result) => setData(result.data));
+    await axios.get(`/api/getAllChats`).then((result) => setData(result.data));
   };
 
   const { user, activeChat, setActiveChat, loggedUser, socket } =

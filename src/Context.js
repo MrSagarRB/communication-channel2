@@ -40,13 +40,13 @@ const Context = ({ children }) => {
 
   let getAllUser = async () => {
     await axios
-      .get(`${api_baseUrl}/getAllUser`)
+      .get(`/api/getAllUser`)
       .then((result) => setAllUsers(result.data));
   };
 
   let getAllOnlineUse = async () => {
     await axios
-      .get(`${api_baseUrl}/getOnlineUsers`)
+      .get(`/api/getOnlineUsers`)
       .then((result) => setOnlineUsers(result.data));
   };
 
