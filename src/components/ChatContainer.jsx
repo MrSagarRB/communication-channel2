@@ -11,9 +11,7 @@ const ChatContainer = () => {
   // const { isLoading, error, data } = useQuery("allChats");
 
   let getAllMsg = async () => {
-    await axios
-      .get(`${api_baseUrl}/getAllChats`)
-      .then((result) => setData(result.data));
+    await axios.get(`/getAllChats`).then((result) => setData(result.data));
     console.log("run");
   };
 

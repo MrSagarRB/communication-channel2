@@ -22,13 +22,13 @@ const ContactContainer = ({ constctsContainer, setConstctsContainer }) => {
 
   let handelCreateChat = async (item) => {
     axios
-      .post(`${api_baseUrl}/findChatByID`, {
+      .post(`/findChatByID`, {
         users: [item._id, loggedUser._id],
       })
       .then((result) => {
         if (result.data[0] === undefined) {
           axios
-            .post(`${api_baseUrl}/createNewChat`, {
+            .post(`/createNewChat`, {
               users: [item._id, loggedUser._id],
               members: [item.userName, loggedUser.userName],
               groupChat: false,
@@ -45,7 +45,7 @@ const ContactContainer = ({ constctsContainer, setConstctsContainer }) => {
 
   let handelCreateGroupChat = async () => {
     axios
-      .post(`${api_baseUrl}/createNewChat`, {
+      .post(`/createNewChat`, {
         groupChat: true,
         users: inputCheck,
         admin: loggedUser._id,
