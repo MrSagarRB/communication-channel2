@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Navigate,
@@ -11,12 +11,38 @@ import Login from "./pages/Login";
 import CreateUser from "./pages/CreateUser";
 import { ContextProvider } from "./Context";
 import { Cookies } from "react-cookie";
+import Loader from "./components/Loader";
+import axios from "axios";
+import { api_baseUrl } from "./utils";
 
 const queryClient = new QueryClient();
 const App = () => {
-  let { loggedUser } = useContext(ContextProvider);
+  let { loggedUser, setLoggedUser } = useContext(ContextProvider);
+  let [isLoading, setIsLoading] = useState(true);
+  const cookies = new Cookies();
+  console.log(loggedUser);
 
-  return (
+  let checkToken = () => {
+    let stroredToken = cookies.get("token");
+    if (stroredToken) {
+      axios
+        .post(`${api_baseUrl}/getUserByID`, { token: stroredToken })
+        .then((result) => {
+          setLoggedUser(result.data[0]);
+        });
+    } else {
+      console.log("no");
+    }
+  };
+
+  useEffect(() => {
+    checkToken();
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+  }, []);
+
+  return !isLoading ? (
     <div className="">
       <QueryClientProvider client={queryClient}>
         <Router>
@@ -46,6 +72,8 @@ const App = () => {
         </Router>
       </QueryClientProvider>
     </div>
+  ) : (
+    <Loader />
   );
 };
 

@@ -7,6 +7,7 @@ import profilePic from "../json/profilePic.json";
 const CreateUser = () => {
   let [newUser, setNewUser] = useState();
   const navigate = useNavigate();
+
   let getProfilePic = () => {
     return Math.floor(Math.random() * 10);
   };
@@ -21,18 +22,16 @@ const CreateUser = () => {
 
   let createUser = async (e) => {
     e.preventDefault();
-
     axios.post(`${api_baseUrl}/createUser`, newUser).then(() => {
       alert("Account Created Successfully");
       navigate("/");
     });
   };
 
-  console.log(profilePic[getProfilePic()]);
   return (
     <div className="flex items-center justify-center  h-screen w-full ">
       <div className=" w-[80%] sm:w-[400px] text-black">
-        <form autocomplete="off">
+        <form onSubmit={(e) => createUser(e)} autocomplete="off">
           <div className="mb-6 ">
             <label for="email" className="block mb-2 text-sm font-medium ">
               Your Name
@@ -99,7 +98,6 @@ const CreateUser = () => {
             </Link>
           </div>
           <button
-            onClick={(e) => createUser(e)}
             type="submit"
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >

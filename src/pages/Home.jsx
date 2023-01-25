@@ -6,24 +6,13 @@ import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import { ContextProvider } from "../Context";
 import { AiOutlinePlus } from "react-icons/ai";
-// import io from "socket.io-client";
 
 const Home = () => {
-  let { user, activeChat, allUser, loggedUser, socket } =
+  let { activeChat, setConstctsContainer, constctsContainer } =
     useContext(ContextProvider);
-  let [constctsContainer, setConstctsContainer] = useState(false);
-
-  // const socket = io.connect("ws://localhost:3005");
-
-  useEffect(() => {
-    socket.emit("user_online", loggedUser._id);
-    socket.on("receive_msg", (data) => {
-      console.log("data");
-    });
-  }, [socket]);
 
   return (
-    <div className="flex  h-screen ">
+    <div className="flex h-screen ">
       <div
         className={` ${
           activeChat ? "hidden" : ""

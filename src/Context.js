@@ -16,7 +16,27 @@ const Context = ({ children }) => {
   let [allUser, setAllUsers] = useState();
   let [loggedUser, setLoggedUser] = useState();
   let [onlineUser, setOnlineUsers] = useState([]);
+  let [visible, setVisible] = useState(false);
+  let [constctsContainer, setConstctsContainer] = useState(false);
+
+  // Variables
   const cookies = new Cookies();
+
+  // Function
+  let logOut = () => {
+    console.log("logout");
+    cookies.remove("token");
+    socket.emit("user_offline", loggedUser._id);
+    window.location.reload();
+  };
+
+  const handler = () => setVisible(true);
+  const closeHandler = () => {
+    setVisible(false);
+    console.log("closed");
+  };
+
+  // Api
 
   let getAllUser = async () => {
     await axios
@@ -28,21 +48,6 @@ const Context = ({ children }) => {
     await axios
       .get(`${api_baseUrl}/getOnlineUsers`)
       .then((result) => setOnlineUsers(result.data));
-  };
-
-  // Modal
-  const [visible, setVisible] = React.useState(false);
-  const handler = () => setVisible(true);
-  const closeHandler = () => {
-    setVisible(false);
-    console.log("closed");
-  };
-
-  let logOut = () => {
-    console.log("logout");
-    cookies.remove("token");
-    socket.emit("user_offline", loggedUser._id);
-    window.location.reload();
   };
 
   useEffect(() => {
@@ -66,6 +71,8 @@ const Context = ({ children }) => {
         getAllUser,
         onlineUser,
         socket,
+        constctsContainer,
+        setConstctsContainer,
       }}
     >
       {children}
