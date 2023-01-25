@@ -2,10 +2,6 @@ import React, { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "universal-cookie";
 import io from "socket.io-client";
-const socket = io.connect("http://192.168.1.101:3005");
-socket.emit("test_socket", () => {
-  console.log("connected");
-});
 
 export const ContextProvider = createContext();
 
@@ -31,6 +27,9 @@ const Context = ({ children }) => {
       return "/api";
     }
   };
+
+  const socket = io.connect(`http://192.168.1.101:3005`);
+  socket.emit("test_socket", { name: "sagar" });
 
   let logOut = () => {
     console.log("logout");
