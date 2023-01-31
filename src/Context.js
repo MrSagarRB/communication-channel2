@@ -1,12 +1,12 @@
-import React, { createContext, useEffect, useState } from "react";
-import axios from "axios";
-import Cookies from "universal-cookie";
-import io from "socket.io-client";
+import React, { createContext, useEffect, useState } from 'react';
+import axios from 'axios';
+import Cookies from 'universal-cookie';
+import io from 'socket.io-client';
 
 export const ContextProvider = createContext();
 
 const Context = ({ children }) => {
-  let [user, setUser] = useState("");
+  let [user, setUser] = useState('');
   let [activeChat, setActiveChat] = useState();
   let [allUser, setAllUsers] = useState();
   let [loggedUser, setLoggedUser] = useState();
@@ -21,26 +21,27 @@ const Context = ({ children }) => {
 
   // Function
   const api_baseUrl = () => {
-    if (window.location.origin == "http://192.168.1.101:3000") {
-      return "http://192.168.1.101:3005/api";
+    if (window.location.origin == 'http://192.168.1.101:3000') {
+      return 'http://192.168.1.101:3005/api';
     } else {
-      return "/api";
+      // return '/api';
+      return 'http://192.168.200.63:3005/api';
     }
   };
 
-  const socket = io.connect(`http://192.168.1.101:3005`);
-  socket.emit("test_socket", { name: "sagar" });
+  const socket = io.connect(`http://192.168.200.63:3005`);
+  socket.emit('test_socket', { name: 'sagar' });
 
   let logOut = () => {
-    console.log("logout");
-    cookies.remove("token");
+    console.log('logout');
+    cookies.remove('token');
     window.location.reload();
   };
 
   const handler = () => setVisible(true);
   const closeHandler = () => {
     setVisible(false);
-    console.log("closed");
+    console.log('closed');
   };
 
   // Api

@@ -1,26 +1,32 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
   Navigate,
   Route,
   Routes,
-} from "react-router-dom";
-import { QueryClient, QueryClientProvider, useQuery } from "react-query";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import CreateUser from "./pages/CreateUser";
-import { ContextProvider } from "./Context";
-import { Cookies } from "react-cookie";
-import Loader from "./components/Loader";
-import axios from "axios";
+} from 'react-router-dom';
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from 'react-query';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import CreateUser from './pages/CreateUser';
+import { ContextProvider } from './Context';
+import { Cookies } from 'react-cookie';
+import Loader from './components/Loader';
+import axios from 'axios';
 
 const queryClient = new QueryClient();
 const App = () => {
-  let { loggedUser, setLoggedUser, api_baseUrl } = useContext(ContextProvider);
+  let { loggedUser, setLoggedUser, api_baseUrl } =
+    useContext(ContextProvider);
   let [isLoading, setIsLoading] = useState(true);
   const cookies = new Cookies();
   let checkToken = () => {
-    let stroredToken = cookies.get("token");
+    let stroredToken = cookies.get('token');
+
     if (stroredToken) {
       axios
         .post(`${api_baseUrl()}/getUserByID`, { token: stroredToken })
@@ -28,7 +34,7 @@ const App = () => {
           setLoggedUser(result.data[0]);
         });
     } else {
-      console.log("no");
+      console.log('no token');
     }
   };
 
