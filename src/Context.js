@@ -15,7 +15,7 @@ const Context = ({ children }) => {
   let [constctsContainer, setConstctsContainer] = useState(false);
   let [socketConnected, setSocketConnected] = useState(null);
 
-  let [socket, setSocket] = useState(io(`http://192.168.1.101:3005`));
+  let [socket, setSocket] = useState(io(`/api`));
 
   // tested
   let [chats, setAllChats] = useState();
