@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { ImAttachment } from 'react-icons/im';
-import { CiPaperplane } from 'react-icons/ci';
-import axios from 'axios';
-import { ContextProvider } from '../Context';
+import React, { useContext, useEffect, useState } from "react";
+import { ImAttachment } from "react-icons/im";
+import { CiPaperplane } from "react-icons/ci";
+import axios from "axios";
+import { ContextProvider } from "../Context";
 
 const Footer = () => {
   let [newMessage, setNewMessage] = useState();
-  let { loggedUser, activeChat, api_baseUrl } =
+  let { loggedUser, activeChat, api_baseUrl, socket, getAllChats } =
     useContext(ContextProvider);
   let [file, setFile] = useState();
 
@@ -22,11 +22,13 @@ const Footer = () => {
           id: activeChat,
           message: newMessage,
           senderID: loggedUser._id,
-          time: d.getHours() + ':' + d.getMinutes(),
+          time: d.getHours() + ":" + d.getMinutes(),
         })
         .then(() => {
-          document.getElementById('msg').value = '';
+          document.getElementById("msg").value = "";
           setNewMessage();
+          getAllChats();
+          socket.emit("send-message", newMessage);
         });
     }
   };
@@ -34,19 +36,17 @@ const Footer = () => {
   let handelFile = (e) => {
     // console.log(e.target.files[0]);
     setFile(e.target.files[0]);
-    document.getElementById('msg').value = e.target.files[0].name;
+    document.getElementById("msg").value = e.target.files[0].name;
   };
 
   let handelSendFile = () => {
-    console.log('call');
+    console.log("call");
     let formData = new FormData();
-    formData.append('avatar', file);
-    axios
-      .post(`${api_baseUrl()}/uploadFile`, formData)
-      .then((result) => {
-        setFile();
-        console.log(result);
-      });
+    formData.append("avatar", file);
+    axios.post(`${api_baseUrl()}/uploadFile`, formData).then((result) => {
+      setFile();
+      console.log(result);
+    });
   };
 
   let filePreviewFile = (file) => {
@@ -54,13 +54,13 @@ const Footer = () => {
       console.log(URL.createObjectURL(file));
 
       switch (file.type) {
-        case 'application/pdf':
-          return 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/1667px-PDF_file_icon.svg.png';
+        case "application/pdf":
+          return "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/1667px-PDF_file_icon.svg.png";
 
-        case 'image/png':
+        case "image/png":
           return URL.createObjectURL(file);
 
-        case 'image/jpeg':
+        case "image/jpeg":
           return URL.createObjectURL(file);
 
         default:
@@ -69,6 +69,7 @@ const Footer = () => {
     }
   };
 
+  // useEffect(() => {}, []);
   return (
     <form
       onSubmit={(e) => handelSendMessage(e)}
@@ -78,7 +79,7 @@ const Footer = () => {
       <div className="px-[10px] py-[10px] flex items-center gap-[15px] border border-[#EEEEEE] h-[100%]  w-full   bg-[#fff] relative ">
         <div
           className={`${
-            !file && 'hidden'
+            !file && "hidden"
           }  h-[200px] w-[200px]  absolute -top-[210px]  rounded-md px-[10px]`}
         >
           <div className="h-[150px] overflow-hidden">
@@ -90,8 +91,8 @@ const Footer = () => {
             />
           </div>
           <p className="text-center w-[190px] mt-[5px] truncate ... ">
-            {' '}
-            {file?.name}{' '}
+            {" "}
+            {file?.name}{" "}
           </p>
         </div>
         <label

@@ -1,18 +1,22 @@
-import React, { createContext, useEffect, useState } from 'react';
-import axios from 'axios';
-import Cookies from 'universal-cookie';
-import io from 'socket.io-client';
+import React, { createContext, useCallback, useEffect, useState } from "react";
+import axios from "axios";
+import Cookies from "universal-cookie";
+import io from "socket.io-client";
 
 export const ContextProvider = createContext();
 
 const Context = ({ children }) => {
-  let [user, setUser] = useState('');
+  let [user, setUser] = useState("");
   let [activeChat, setActiveChat] = useState();
   let [allUser, setAllUsers] = useState();
   let [loggedUser, setLoggedUser] = useState();
   let [onlineUser, setOnlineUsers] = useState([]);
   let [visible, setVisible] = useState(false);
   let [constctsContainer, setConstctsContainer] = useState(false);
+  let [socketConnected, setSocketConnected] = useState(null);
+
+  let [socket, setSocket] = useState(io(`http://192.168.1.101:3005`));
+
   // tested
   let [chats, setAllChats] = useState();
 
@@ -21,27 +25,27 @@ const Context = ({ children }) => {
 
   // Function
   const api_baseUrl = () => {
-    if (window.location.origin == 'http://192.168.1.101:3000') {
-      return 'http://192.168.1.101:3005/api';
+    if (window.location.origin == "http://192.168.1.101:3000") {
+      return "http://192.168.1.101:3005/api";
     } else {
-      // return '/api';
-      return 'http://192.168.200.63:3005/api';
+      return "/api";
+      // return "http://192.168.200.63:3005/api";
     }
   };
+  console.log(api_baseUrl());
 
-  const socket = io.connect(`http://192.168.200.63:3005`);
-  socket.emit('test_socket', { name: 'sagar' });
+  // const socket = io(`http://192.168.1.101:3005`);
 
   let logOut = () => {
-    console.log('logout');
-    cookies.remove('token');
+    console.log("logout");
+    cookies.remove("token");
     window.location.reload();
   };
 
   const handler = () => setVisible(true);
   const closeHandler = () => {
     setVisible(false);
-    console.log('closed');
+    console.log("closed");
   };
 
   // Api
@@ -65,10 +69,45 @@ const Context = ({ children }) => {
   };
 
   useEffect(() => {
+    // checkToken();
+    let myfunction = async () => {
+      let stroredToken = cookies.get("token");
+      if (stroredToken) {
+        await axios
+          .post(`${api_baseUrl()}/getUserByID`, { token: stroredToken })
+          .then((result) => {
+            setLoggedUser(result.data[0]);
+            socket.emit("setup", result.data[0]);
+            console.log(loggedUser);
+          });
+      } else {
+        console.log("no token");
+      }
+    };
+    myfunction();
     getAllOnlineUsers();
     getAllUser();
     getAllChats();
+
+    // socket = io(`http://192.168.1.101:3005`);
+
+    // socket.emit("setup", loggedUser);
+    socket.on("connection", () => {
+      setSocketConnected(true);
+    });
+
+    // if (!socket || socket.readyState === WebSocket.CLOSED) {
+    //   setSocket(io.connect(`http://192.168.1.101:3005`));
+    // }
+
+    // const socket = io.connect(`http://192.168.1.101:3005`);
+    socket.on("refect-data", () => {
+      console.log("hello");
+      getAllChats();
+    });
   }, []);
+
+  console.log(socket.id);
 
   return (
     <ContextProvider.Provider
@@ -89,6 +128,8 @@ const Context = ({ children }) => {
         setConstctsContainer,
         api_baseUrl,
         chats,
+        socket,
+        getAllChats,
       }}
     >
       {children}

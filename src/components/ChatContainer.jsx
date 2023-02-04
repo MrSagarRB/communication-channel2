@@ -3,12 +3,9 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { ContextProvider } from "../Context";
 
 const ChatContainer = () => {
-  let { activeChat, chats, allUser, loggedUser, api_baseUrl } =
+  let { activeChat, chats, allUser, loggedUser, socket } =
     useContext(ContextProvider);
   const messagesEndRef = useRef(null);
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
 
   let allMessages = chats?.filter((item) => {
     return item._id === activeChat;
@@ -28,6 +25,23 @@ const ChatContainer = () => {
     });
     return sender[0].userName;
   };
+
+  socket.emit("join-chat", activeChat);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    console.log("updated");
+  };
+
+  setTimeout(function () {
+    scrollToBottom();
+  }, 1000);
+
+  useEffect(() => {
+    socket.on("refect-data", () => {
+      console.log("refetch");
+    });
+  }, [socket]);
 
   return (
     <div className=" flex flex-col   gap-[15px]">
