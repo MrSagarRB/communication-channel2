@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { BiSearch } from "react-icons/bi";
 import UserContainer from "./UserContainer";
 import { ContextProvider } from "../Context";
@@ -6,6 +6,22 @@ import LoggedUserCard from "./LoggedUserCard";
 
 const Sidebar = () => {
   const { setActiveChat, loggedUser, chats } = useContext(ContextProvider);
+
+  function sortChats(chats) {
+    chats.sort((a, b) => {
+      let aTime = new Date(a.updatedAt).getTime();
+      let bTime = new Date(b.updatedAt).getTime();
+      return bTime - aTime;
+    });
+    return chats;
+  }
+
+  let sortedChats = chats.sort(function (a, b) {
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
+
+  console.log(sortedChats);
+
   return (
     <div className="h-full w-full border-r border-[#EEEEEE] shadow-sm">
       <div className="w-full  px-[25px] py-[27px]  ">
